@@ -6,7 +6,7 @@
 
 Figma ссылка [тут](https://www.figma.com/file/wyWDv4tvTooNEqvVsuO6vN/Chat_external_link-(Copy)?node-id=0%3A1)
 
-Развернутый проект [тут](https://soft-torte-46ed76.netlify.app)
+Развернутый проект [тут](https://sunny-mousse-7109ec.netlify.app)
 
 ----
 
