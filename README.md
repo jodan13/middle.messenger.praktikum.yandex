@@ -12,6 +12,6 @@ Figma ссылка [тут](https://www.figma.com/file/wyWDv4tvTooNEqvVsuO6vN/Ch
 
 ## Команды
 
-- `npm install` — установка стабильной версии,
+- `npm install` — установка,
 - `npm run start` — запуск проекта,
 - `npm run build` — сборка проекта,
