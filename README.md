@@ -7,7 +7,7 @@
 Figma ссылка [тут](https://www.figma.com/file/wyWDv4tvTooNEqvVsuO6vN/Chat_external_link-(Copy)?node-id=0%3A1)
 
 Развернутый проект [тут](https://sunny-mousse-7109ec.netlify.app)
-
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8c45e413-852b-4bf6-90db-7c10b335fd23/deploy-status)](https://app.netlify.com/sites/sunny-mousse-7109ec/deploys)
 ----
 
 ## Команды
