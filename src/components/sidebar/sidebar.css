@@ -1,0 +1,9 @@
+.profile-link {
+  align-self: flex-end;
+  margin-bottom: 25px;
+}
+
+.contact-card-list-wrapper {
+  margin-top: 14px;
+  border-top: 1px solid var(--border-color-2);
+}

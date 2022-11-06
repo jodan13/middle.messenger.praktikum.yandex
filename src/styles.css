@@ -1,0 +1,49 @@
+:root {
+  --primary-color: #333;
+  --white-color: #fff;
+  --text-color: #fff;
+  --link-color: #3369f3;
+  --gray-color: #999;
+  --gray-color-2: #727272;
+  --gray-color-3: #545454;
+  --bg-color: #414042;
+  --bg-body-color: #58595b;
+  --bg-input-search: #4d4d4d;
+  --color-gray-100: #6d6e71;
+  --border-color: #979797;
+  --border-color-2: #4b4a4c;
+  --bg-message: #353436;
+  --error-color: #ff2f2f;
+  --color-icon: #bdbdbd;
+  --color-icon-2: #1e1e1e;
+  --color-icon-3: #cdcdcd;
+  --box-shadow: 0 8px 16px 0 rgb(0 0 0 / 35%);
+}
+
+* {
+  font-family: Roboto, Arial, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  background: var(--bg-body-color);
+}
+
+a {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
+  color: var(--link-color);
+  text-align: center;
+}

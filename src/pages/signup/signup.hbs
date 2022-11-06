@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <div class="sign-in">
+    <h1 class="title">Регистрация</h1>
+    <form>
+      {{> input/input id="email" type="email" name="email" placeholder="Почта" }}
+      {{> input/input id="login" type="text" name="login" placeholder="Логин" }}
+      {{> input/input id="first_name" type="text" name="first_name" placeholder="Имя" }}
+      {{> input/input id="second_name" type="text" name="second_name" placeholder="Фамилия" }}
+      {{> input/input id="phone" type="tel" name="phone" placeholder="Телефон" }}
+      {{> input/input id="password" type="password" name="password" placeholder="Пароль" }}
+      {{> input/input id="password_2" type="password" name="password" placeholder="Пароль (еще раз)" }}
+      {{> button/button type="submit" value="Регистрация" }}
+      <a href="login">Войти</a>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+.text-field {
+  &__input[type="text"],
+  &__input[type="password"],
+  &__input[type="email"],
+  &__input[type="tel"] {
+    width: 100%;
+    padding: 10px 14px;
+    margin: 8px 0 4px;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 13px;
+    color: var(--text-color);
+    background: inherit;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+  }
+
+  &__label {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 13px;
+    color: var(--text-color);
+  }
+
+  &__message {
+    visibility: hidden;
+    font-size: 8px;
+    line-height: 8px;
+    color: var(--error-color);
+    margin-bottom: 8px;
+  }
+}
