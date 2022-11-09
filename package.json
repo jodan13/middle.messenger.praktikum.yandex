@@ -1,9 +1,9 @@
 {
   "name": "chat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "scripts": {
-    "dev": "parcel -p 4000 static/index.html --no-cache",
+    "dev": "parcel -p 5000 static/index.html --no-cache",
     "start": "npm run build && node ./server.js",
     "build": "parcel build static/index.html --no-cache"
   },

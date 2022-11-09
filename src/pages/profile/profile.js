@@ -1,6 +1,11 @@
+import Handlebars from "handlebars/dist/handlebars.runtime";
+
 import './profile.css';
 import templateFunction from './profile.hbs';
+import modal from '../../components/modal/modal.hbs';
+import '../../components/modal/modal.css';
 
+Handlebars.registerPartial('modal', modal)
 export const profileCheckSate = () => {
   const changeData = document.querySelector('#changeData');
   const formChangeData = document.querySelector('#formChangeData');

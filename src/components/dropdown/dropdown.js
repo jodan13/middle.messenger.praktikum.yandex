@@ -15,7 +15,7 @@ export const dropdown = () => {
     }
   });
 
-  window.onclick = function (event) {
+  window.addEventListener("click", function (event) {
     if (!event.target.closest('.menu-dots')) {
       const myDropdown = document.getElementById("myDropdown")
       if (myDropdown.classList.contains('show')) {
@@ -28,5 +28,5 @@ export const dropdown = () => {
         myDropdownFile.classList.remove('show');
       }
     }
-  }
+  });
 }

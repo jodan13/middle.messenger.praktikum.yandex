@@ -11,6 +11,7 @@ import {locationChange} from './utils/locationChange';
 import {error404, error500} from './pages/error/error';
 import {contactCard} from "./components/contactCard/contactCard.js";
 import {dropdown} from "./components/dropdown/dropdown";
+import {openModal} from "./components/modal/modal";
 
 const pages = {
   home: () => {
@@ -21,11 +22,13 @@ const pages = {
   signup: () => signup,
   profile: () => {
     setTimeout(profileCheckSate, 0);
+    setTimeout(openModal, 0);
     return profile;
   },
   chatMessage: () => {
     setTimeout(contactCard, 0);
     setTimeout(dropdown, 0);
+    setTimeout(openModal, 0);
     return chatMessage
   },
   error404: () => error404,
@@ -45,7 +48,8 @@ window.addEventListener("DOMContentLoaded", () => {
     links.forEach(link => {
       link.addEventListener("click", (e) => {
         e.preventDefault();
-        const page = e.target.closest('a').getAttribute("href");
+        const page = e.target.closest('a:not(.disableEvent)').getAttribute("href");
+        console.log('page', page);
         root.innerHTML = pages[page ? page.split("?")[0] : pages.home]();
         history.pushState(null, null, page);
         linksFunc();

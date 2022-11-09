@@ -17,12 +17,32 @@
     border-radius: 4px;
   }
 
+  &__input[type="file"] {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+  }
+
   &__label {
     font-style: normal;
     font-weight: 500;
     font-size: 13px;
     line-height: 13px;
     color: var(--text-color);
+
+    .file {
+      display: flex;
+      max-width: 120px;
+      margin: 0 50px;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
+      text-align: center;
+      text-decoration-line: underline;
+      color: var(--link-color);
+      cursor: pointer;
+    }
   }
 
   &__message {
