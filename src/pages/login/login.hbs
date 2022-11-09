@@ -1,0 +1,11 @@
+<div class="wrapper">
+  <div class="sign-in">
+    <h1 class="title">Вход</h1>
+    <form action="home" method="get">
+      {{> input/input id="login" type="text" name="login" placeholder="Логин" }}
+      {{> input/input id="password" type="password" name="password" placeholder="Пароль" }}
+      {{> button/button type="submit" value="Войти" }}
+      <a href="signup">Регистрация</a>
+    </form>
+  </div>
+</div>

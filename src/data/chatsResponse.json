@@ -1,0 +1,74 @@
+[
+  {
+    "id": 123,
+    "title": "my-chat",
+    "avatar": "",
+    "unread_count": 2,
+    "last_message": {
+      "user": {
+        "first_name": "Petya",
+        "second_name": "Pupkin",
+        "avatar": "",
+        "email": "my@email.com",
+        "login": "userLogin",
+        "phone": "8(911)-222-33-22"
+      },
+      "time": "2022-11-04T14:22:22.000Z",
+      "content": "this is message content"
+    }
+  },
+  {
+    "id": 124,
+    "title": "my-chat",
+    "avatar": "",
+    "unread_count": 0,
+    "last_message": {
+      "user": {
+        "first_name": "Petya",
+        "second_name": "Pupkin",
+        "avatar": "",
+        "email": "my@email.com",
+        "login": "userLogin",
+        "phone": "8(911)-222-33-22"
+      },
+      "time": "2022-11-02T14:22:22.000Z",
+      "content": "this is message content"
+    }
+  },
+  {
+    "id": 125,
+    "title": "my-chat",
+    "avatar": "",
+    "unread_count": 4,
+    "last_message": {
+      "user": {
+        "first_name": "Petya",
+        "second_name": "Pupkin",
+        "avatar": "",
+        "email": "my@email.com",
+        "login": "userLogin",
+        "phone": "8(911)-222-33-22"
+      },
+      "time": "2022-11-01T14:22:22.000Z",
+      "content": "this is message content"
+    }
+  },
+  {
+    "id": 126,
+    "title": "my-chat",
+    "avatar": "",
+    "unread_count": 0,
+    "last_message": {
+      "user": {
+        "first_name": "Petya",
+        "second_name": "Pupkin",
+        "avatar": "",
+        "email": "my@email.com",
+        "login": "userLogin",
+        "phone": "8(911)-222-33-22"
+      },
+      "time": "2022-01-02T14:22:22.000Z",
+      "content": "this is message content"
+    }
+  }
+]
