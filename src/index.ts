@@ -43,7 +43,7 @@ window.addEventListener('DOMContentLoaded', () => {
   };
   const root = document.querySelector('#app');
   if (root) {
-    root.innerHTML = pages[checkPage()]() || pages.home();
+    root.innerHTML = pages[checkPage() as keyof typeof pages]() || pages.home();
   }
   const linksFunc = () => {
     const links = document.querySelectorAll('a:not(.disableEvent)');
@@ -56,7 +56,7 @@ window.addEventListener('DOMContentLoaded', () => {
           page = linkTarget?.getAttribute('href');
         }
         if (root) {
-          root.innerHTML = pages[page ? page.split('?')[0] : pages.home]();
+          root.innerHTML = pages[page ? (page.split('?')[0] as keyof typeof pages) : 'home']();
         }
         history.pushState(null, '', page);
         linksFunc();
@@ -66,7 +66,7 @@ window.addEventListener('DOMContentLoaded', () => {
   linksFunc();
   window.addEventListener('popstate', () => {
     if (root) {
-      root.innerHTML = pages[checkPage()]() || pages.home();
+      root.innerHTML = pages[checkPage() as keyof typeof pages]() || pages.home();
     }
     linksFunc();
   });

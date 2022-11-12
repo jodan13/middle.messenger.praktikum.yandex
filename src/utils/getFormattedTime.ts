@@ -1,5 +1,5 @@
-export const getFormattedTime = (chatsResponse) => {
-  const funToTime = (time) => {
+export const getFormattedTime = (chatsResponse: { last_message: { time: string; }; }[]) => {
+  const funToTime = (time: string | number | Date) => {
     const date = new Date(time);
     const today = new Date();
     const yesterday = new Date();
@@ -24,7 +24,7 @@ export const getFormattedTime = (chatsResponse) => {
     }
 
   };
-  return chatsResponse.map((chat) => {
+  return chatsResponse.map((chat: { last_message: { time: string; }; }) => {
     return {
       ...chat,
       last_message: {
