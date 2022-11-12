@@ -42,23 +42,32 @@ window.addEventListener('DOMContentLoaded', () => {
     return pages.hasOwnProperty(pathname) ? pathname : 'error404';
   };
   const root = document.querySelector('#app');
-  root.innerHTML = pages[checkPage()]() || pages.home();
+  if (root) {
+    root.innerHTML = pages[checkPage()]() || pages.home();
+  }
   const linksFunc = () => {
     const links = document.querySelectorAll('a:not(.disableEvent)');
     links.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const page = e.target.closest('a:not(.disableEvent)').getAttribute('href');
-        console.log('page', page);
-        root.innerHTML = pages[page ? page.split('?')[0] : pages.home]();
-        history.pushState(null, null, page);
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        let page;
+        if (event.target instanceof Element) {
+          const linkTarget = event.target.closest('a:not(.disableEvent)');
+          page = linkTarget?.getAttribute('href');
+        }
+        if (root) {
+          root.innerHTML = pages[page ? page.split('?')[0] : pages.home]();
+        }
+        history.pushState(null, '', page);
         linksFunc();
       });
     });
   };
   linksFunc();
   window.addEventListener('popstate', () => {
-    root.innerHTML = pages[checkPage()]() || pages.home();
+    if (root) {
+      root.innerHTML = pages[checkPage()]() || pages.home();
+    }
     linksFunc();
   });
 });

@@ -1,3 +1,3 @@
-import templateFunction from './signup.hbs'
+import templateFunction from './signup.hbs';
 
-export const signup = templateFunction()
+export const signup = templateFunction();
