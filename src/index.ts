@@ -11,6 +11,15 @@ import './styles.css';
 import './components/inputWrapper/input.css';
 import './components/button/button.css';
 import img from 'static/img/default-user.png';
+import registerComponent from 'src/utils/registerComponent';
+import { ButtonDropdownFile } from 'src/components/buttonDropdownFile/buttonDropdownFile';
+import { ButtonDropdownDots } from 'src/components/buttonDropdownDots/buttonDropdownDots';
+import { ButtonOpenModal } from 'src/components/buttonOpenModal/buttonOpenModal';
+
+
+registerComponent('ButtonDropdownFile', ButtonDropdownFile);
+registerComponent('ButtonDropdownDots', ButtonDropdownDots);
+registerComponent('ButtonOpenModal', ButtonOpenModal);
 
 const modifiedChatsReply = getFormattedTime(chatsResponse);
 

@@ -1,12 +1,11 @@
 import Block from 'src/utils/Block';
-import registerComponent from 'src/utils/registerComponent';
-import { ButtonDropdownFile } from '../buttonDropdownFile/buttonDropdownFile';
-import { ButtonDropdownDots } from '../ButtonDropdownDots/ButtonDropdownDots';
-import { ButtonOpenModal } from '../buttonOpenModal/buttonOpenModal';
-
-registerComponent('ButtonDropdownFile', ButtonDropdownFile);
-registerComponent('ButtonDropdownDots', ButtonDropdownDots);
-registerComponent('ButtonOpenModal', ButtonOpenModal);
+// import { ButtonDropdownFile } from '../buttonDropdownFile/buttonDropdownFile';
+// import { ButtonDropdownDots } from '../ButtonDropdownDots/ButtonDropdownDots';
+// import { ButtonOpenModal } from '../buttonOpenModal/buttonOpenModal';
+//
+// registerComponent('ButtonDropdownFile', ButtonDropdownFile);
+// registerComponent('ButtonDropdownDots', ButtonDropdownDots);
+// registerComponent('ButtonOpenModal', ButtonOpenModal);
 
 interface Props {
   id: string;
