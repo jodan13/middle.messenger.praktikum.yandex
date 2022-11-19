@@ -1,8 +1,8 @@
 import Block from 'src/utils/Block';
 import registerComponent from 'src/utils/registerComponent';
-import { ButtonDropdownFile } from 'src/components/buttonDropdownFile/buttonDropdownFile';
-import { ButtonDropdownDots } from 'src/components/ButtonDropdownDots/ButtonDropdownDots';
-import { ButtonOpenModal } from 'src/components/buttonOpenModal/buttonOpenModal';
+import { ButtonDropdownFile } from '../buttonDropdownFile/buttonDropdownFile';
+import { ButtonDropdownDots } from '../ButtonDropdownDots/ButtonDropdownDots';
+import { ButtonOpenModal } from '../buttonOpenModal/buttonOpenModal';
 
 registerComponent('ButtonDropdownFile', ButtonDropdownFile);
 registerComponent('ButtonDropdownDots', ButtonDropdownDots);
