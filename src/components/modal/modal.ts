@@ -1,71 +1,57 @@
-export const openModal = () => {
-  const modal = document.getElementById('myModal');
-  const btnAddUser = document.getElementById('openModalAddUser');
-  const btnDelUser = document.getElementById('openModalDelUser');
-  const btnUploadAvatar = document.getElementById('openModalUploadAvatar');
+import Block from 'src/utils/Block';
+import { validation } from 'src/utils/validation';
+import { regExpLogin } from 'src/utils/const';
 
-  if (btnAddUser && modal) {
-    btnAddUser.onclick = function () {
-      modal.style.display = 'flex';
-      const modalH3 = modal.querySelector('h3');
-      if (modalH3) {
-        modalH3.textContent = 'Добавить пользователя';
+export class Modal extends Block {
+  constructor() {
+    super({});
+    window.addEventListener('click', (event) => {
+      if (this._element && event.target === this._element) {
+        this._element.style.display = 'none';
       }
-      const modalForm = modal.querySelector('input[type=submit]') as HTMLInputElement;
-      if (modalForm) {
-        modalForm.value = 'Добавить';
-      }
-    };
+    });
+
+    this.setProps({
+      submit: (event: Event) => {
+        event.preventDefault();
+        const form = document.getElementById('modalForm') as HTMLFormElement;
+        const login = form.elements.namedItem('login') as HTMLInputElement;
+        if (validation(login, regExpLogin)) {
+          const formData = new FormData(form);
+          const data = Object.fromEntries(formData.entries());
+          console.log(data);
+        }
+      },
+      onBlurLogin: ({target}: HTMLInputEvent) => {
+        validation(target, regExpLogin);
+      },
+      onFocusLogin: ({target}: HTMLInputEvent) => {
+        const error = target!.parentElement!.nextElementSibling;
+        error!.classList.remove('visible');
+      },
+
+    });
   }
 
-  if (btnDelUser && modal) {
-    btnDelUser.onclick = function () {
-      modal.style.display = 'flex';
-      const modalH3 = modal.querySelector('h3');
-      if (modalH3) {
-        modalH3.textContent = 'Удалить пользователя';
-      }
-      const modalForm = modal.querySelector('input[type=submit]') as HTMLInputElement;
-      if (modalForm) {
-        modalForm.value = 'Удалить';
-      }
-    };
-  }
-
-  if (btnUploadAvatar && modal) {
-    btnUploadAvatar.onclick = function () {
-      modal.style.display = 'flex';
-
-      const modalH3 = modal.querySelector('h3');
-      if (modalH3) {
-        modalH3.textContent = 'Загрузить файл';
-      }
-
-      const modalForm = modal.querySelector('input[type=login]') as HTMLInputElement;
-      if (modalForm) {
-        modalForm.setAttribute('type', 'file');
-      }
-
-      const modalLabel = modal.querySelector('label span');
-      if (modalLabel) {
-        modalLabel.textContent = 'Выбрать файл на компьютере';
-      }
-
-      const modalLabelSpan = modal.querySelector('label span');
-      if (modalLabelSpan) {
-        modalLabelSpan.classList.add('file');
-      }
-      const modalFormSubmit = modal.querySelector('input[type=submit]') as HTMLInputElement;
-      if (modalFormSubmit) {
-        modalFormSubmit.value = 'Поменять';
-      }
-    };
-  }
-
-  window.addEventListener('click', function (event) {
-    if (modal && event.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
-};
-
+  render() {
+    // language=hbs
+    return `
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <h3>Добавить пользователя</h3>
+                <form id="modalForm">
+                    {{{InputWrapper
+                            type="text"
+                            name="login"
+                            placeholder="Логин"
+                            onBlur=onBlurLogin
+                            onFocus=onFocusLogin
+                            textError="от 3 до 20 символов, латиница, цифры"
+                    }}}
+                    {{{Button value="Войти" type="submit" onClick=submit}}}
+                </form>
+            </div>
+        </div>
+    `;
+  };
+}

@@ -1,0 +1,13 @@
+.reset-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+  line-height: normal;
+}

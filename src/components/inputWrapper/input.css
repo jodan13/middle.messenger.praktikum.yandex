@@ -47,9 +47,13 @@
 
   &__message {
     visibility: hidden;
-    font-size: 8px;
-    line-height: 8px;
+    font-size: 11px;
+    line-height: 11px;
     color: var(--error-color);
     margin-bottom: 8px;
+
+    &.visible {
+      visibility: visible;
+    }
   }
 }

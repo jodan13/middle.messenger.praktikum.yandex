@@ -1,24 +1,43 @@
 import './contactCard.css';
+import Block from 'src/utils/Block';
+import Handlebars from 'handlebars';
 
-const contactCardForEach = () => {
+Handlebars.registerHelper('activeContactCard', function (value: string) {
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(String(prop)),
   }) as URLSearchParams & { [key: string]: string };
-  const contactCard = document.querySelectorAll('.contact-card') as NodeListOf<HTMLElement>;
-  console.log('params', params.id);
-  if (params.id) {
-    contactCard.forEach((item) => {
-      item.classList.remove('active');
-      if (item.dataset.id === params.id) {
-        item.classList.add('active');
-      }
-    });
+  return String(value) === params.id;
+});
+
+interface Props {
+  img: string;
+  item: Record<string, unknown>;
+}
+
+export class ContactCard extends Block {
+  constructor({img, item}: Props) {
+    super({img, item});
   }
-};
 
-const contactCard = () => {
-  contactCardForEach();
-  window.addEventListener('locationchange', contactCardForEach);
-};
-
-export { contactCard };
+  render() {
+    // language=hbs
+    return `
+        <li class="contact-card-list__item">
+            <a class="contact-card {{#if (activeContactCard item.id)}}active{{/if}}" href="home?id={{item.id}}"
+            data-id="{{item.id}}">
+            <img class="contact-card__avatar" src="{{img}}" alt="avatar">
+            <div class="contact-card__name-wrapper">
+                <p class="contact-card__name">{{item.title}}</p>
+            </div>
+            <p class="contact-card__last-message">{{item.last_message.content}}</p>
+            <span class="contact-card__updated">{{item.last_message.time}}</span>
+            {{#if item.unread_count}}
+                <span class="contact-card__counter-messages">
+                    {{item.unread_count}}
+                </span>
+            {{/if}}
+            </a>
+        </li>
+    `;
+  }
+}

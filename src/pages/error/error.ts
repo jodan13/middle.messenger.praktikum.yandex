@@ -1,5 +1,25 @@
 import './error.css';
-import templateFunction from './error.hbs';
+import Block from 'src/utils/Block';
 
-export const error404 = templateFunction({title: '404', text: 'Не туда попали'});
-export const error500 = templateFunction({title: '500', text: 'Мы уже фиксим'});
+interface Props {
+  title: string;
+  text: string;
+}
+
+export class ErrorPage extends Block {
+  constructor({title, text}: Props) {
+    super({title, text});
+  }
+
+  render() {
+    // language=hbs
+    return `
+        <div class="error-wrapper">
+            <h1>{{title}}</h1>
+            <p>{{text}}</p>
+            <a href="home">Назад к чатам</a>
+        </div>
+    `;
+  }
+}
+
