@@ -7,6 +7,7 @@ import { ProfilePage } from 'src/pages/profile/profile';
 import { ErrorPage } from 'src/pages/error/error';
 
 import chatsResponse from 'src/data/chatsResponse.json';
+import './normalize.css';
 import './styles.css';
 import './components/inputWrapper/input.css';
 import './components/button/button.css';
