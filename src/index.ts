@@ -23,14 +23,33 @@ registerComponent('ButtonOpenModal', ButtonOpenModal);
 
 const modifiedChatsReply = getFormattedTime(chatsResponse);
 
-const pages = {
-  home: () => new HomePage({img, modifiedChatsReply}),
-  login: () => new Login({}),
-  signup: () => new Signup({}),
-  profile: () => new ProfilePage({}),
-  error404: () => new ErrorPage({title: '404', text: 'Не туда попали'}),
-  error500: () => new ErrorPage({title: '500', text: 'Мы уже фиксим'}),
-};
+class View {
+  home() {
+    return new HomePage({img, modifiedChatsReply});
+  }
+
+  login() {
+    return new Login({});
+  }
+
+  signup() {
+    return new Signup({});
+  }
+
+  profile() {
+    return new ProfilePage({});
+  }
+
+  error404() {
+    return new ErrorPage({title: '404', text: 'Не туда попали'});
+  }
+
+  error500() {
+    return new ErrorPage({title: '500', text: 'Мы уже фиксим'});
+  }
+}
+
+const pages = new View();
 
 function render(query: string, block: Block) {
   const root = document.querySelector(query);
@@ -42,7 +61,7 @@ function render(query: string, block: Block) {
 
 const checkPage = () => {
   const pathname = window.location.pathname.slice(1);
-  return pages.hasOwnProperty(pathname) ? pathname : 'error404';
+  return pathname in pages ? pathname : 'error404';
 };
 
 document.addEventListener('DOMContentLoaded', () => {

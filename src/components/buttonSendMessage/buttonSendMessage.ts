@@ -3,9 +3,10 @@ import Block from 'src/utils/Block';
 
 interface Props {
   onClick?: (event: Event) => void;
+  events: Record<string, ((event: Event) => void) | undefined>;
 }
 
-export class ButtonSendMessage extends Block {
+export class ButtonSendMessage extends Block<Props> {
   constructor({onClick}: Props) {
     super({events: {click: onClick}});
   }

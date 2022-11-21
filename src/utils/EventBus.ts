@@ -1,7 +1,7 @@
 type Args = { [x: string]: unknown; }
 
 export default class EventBus {
-  listeners: Record<string, Array<(arg1: Args, arg2: Args) => void>>;
+  listeners: Record<string, Array<(...args: unknown[]) => void>>;
 
   constructor() {
     this.listeners = {};
@@ -26,6 +26,6 @@ export default class EventBus {
     if (!this.listeners[event]) {
       throw new Error(`Нет события: ${event}`);
     }
-    this.listeners[event].forEach((listener) => listener(...(args as [Args, Args])));
+    this.listeners[event].forEach((listener) => listener(...args));
   }
 }

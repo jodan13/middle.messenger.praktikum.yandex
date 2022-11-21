@@ -8,12 +8,16 @@ import Block from 'src/utils/Block';
 // registerComponent('ButtonOpenModal', ButtonOpenModal);
 
 interface Props {
-  id: string;
-  message: string;
-  top: string;
+  id?: string;
+  message?: string;
+  top?: string;
+  onClickFile?: (event: Event) => void;
+  onClick?: (event: Event) => void;
+  openModalAddUser?: (event: Event) => void;
+  openModalDelUser?: (event: Event) => void;
 }
 
-export class Dropdown extends Block {
+export class Dropdown extends Block<Props> {
   constructor({id, message, top}: Props) {
     super({id, message, top});
     window.addEventListener('click', (event) => {

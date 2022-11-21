@@ -6,7 +6,7 @@ interface Props {
   text: string;
 }
 
-export class ErrorPage extends Block {
+export class ErrorPage extends Block<Props> {
   constructor({title, text}: Props) {
     super({title, text});
   }

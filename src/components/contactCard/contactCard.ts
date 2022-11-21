@@ -14,7 +14,7 @@ interface Props {
   item: Record<string, unknown>;
 }
 
-export class ContactCard extends Block {
+export class ContactCard extends Block<Props> {
   constructor({img, item}: Props) {
     super({img, item});
   }

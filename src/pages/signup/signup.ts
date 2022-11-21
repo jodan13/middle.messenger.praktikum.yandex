@@ -2,7 +2,7 @@ import Block from 'src/utils/Block';
 import { validation } from 'src/utils/validation';
 import { regExpEmail, regExpLogin, regExpName, regExpPassword, regExpPhone } from 'src/utils/const';
 
-export class Signup extends Block {
+export class Signup extends Block<unknown> {
   constructor(props: {}) {
     super(props);
     this.setProps({

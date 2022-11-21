@@ -11,7 +11,7 @@ interface Props {
   modifiedChatsReply: Record<string, unknown>[];
 }
 
-export class Sidebar extends Block {
+export class Sidebar extends Block<Props> {
   constructor({img, modifiedChatsReply}: Props) {
     super({img, modifiedChatsReply});
   }

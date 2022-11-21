@@ -2,7 +2,7 @@ import Block from 'src/utils/Block';
 import { validation } from 'src/utils/validation';
 import { regExpLogin } from 'src/utils/const';
 
-export class Modal extends Block {
+export class Modal extends Block<unknown> {
   constructor() {
     super({});
     window.addEventListener('click', (event) => {

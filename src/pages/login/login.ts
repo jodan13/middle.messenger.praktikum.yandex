@@ -1,5 +1,3 @@
-import Block from 'src/utils/Block';
-
 import './login.css';
 import '../../components/inputWrapper/input.css';
 import '../../components/button/button.css';
@@ -8,11 +6,12 @@ import Button from 'src/components/button/button';
 import InputWrapper from 'src/components/inputWrapper/input';
 import { regExpLogin, regExpPassword } from 'src/utils/const';
 import { validation } from 'src/utils/validation';
+import Block from 'src/utils/Block';
 
 registerComponent('Button', Button);
 registerComponent('InputWrapper', InputWrapper);
 
-export class Login extends Block {
+export class Login extends Block<unknown> {
   constructor(props: {}) {
     super(props);
 

@@ -18,11 +18,13 @@ registerComponent('Modal', Modal);
 registerComponent('ButtonSendMessage', ButtonSendMessage);
 
 interface Props {
-  img: string;
-  modifiedChatsReply: Record<string, unknown>[];
+  img?: string;
+  modifiedChatsReply?: Record<string, unknown>[];
+  getIdChat?: (event: Event) => void;
+  onclickMessage?: (event: Event) => void;
 }
 
-export class HomePage extends Block {
+export class HomePage extends Block<Props> {
   constructor({img, modifiedChatsReply}: Props) {
     super({img, modifiedChatsReply});
     this.setProps({

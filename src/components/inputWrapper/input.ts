@@ -13,7 +13,7 @@ interface Props {
   onFocus?: Record<string, (event: Event) => void>;
 }
 
-export default class InputWrapper extends Block {
+export default class InputWrapper extends Block<Props> {
   constructor({type, name, onBlur, onFocus, placeholder, textError}: Props) {
     super({type, name, onBlur, onFocus, placeholder, textError});
   }

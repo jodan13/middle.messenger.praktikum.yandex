@@ -2,9 +2,10 @@ import Block from 'src/utils/Block';
 
 interface Props {
   onClickFile?: (event: Event) => void;
+  events: Record<string, ((event: Event) => void) | undefined>;
 }
 
-export class ButtonDropdownFile extends Block {
+export class ButtonDropdownFile extends Block<Props> {
   constructor({onClickFile}: Props) {
     super({events: {click: onClickFile}});
   }

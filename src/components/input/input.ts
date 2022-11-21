@@ -5,9 +5,10 @@ interface Props {
   name: string;
   onBlur?: Record<string, (event: Event) => void>;
   onFocus?: Record<string, (event: Event) => void>;
+  events: Record<string, Record<string, (event: Event) => void> | undefined>;
 }
 
-export default class Input extends Block {
+export default class Input extends Block<Props> {
   constructor({type, name, onBlur, onFocus}: Props) {
     super({type, name, events: {blur: onBlur, focus: onFocus}});
   }

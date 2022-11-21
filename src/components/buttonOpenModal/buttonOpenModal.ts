@@ -2,10 +2,11 @@ import Block from 'src/utils/Block';
 
 interface Props {
   type: string;
-  openModal: (event: Event) => void;
+  openModal?: (event: Event) => void;
+  events: Record<string, ((event: Event) => void) | undefined>;
 }
 
-export class ButtonOpenModal extends Block {
+export class ButtonOpenModal extends Block<Props> {
   constructor({type, openModal}: Props) {
     super({type, events: {click: openModal}});
   }

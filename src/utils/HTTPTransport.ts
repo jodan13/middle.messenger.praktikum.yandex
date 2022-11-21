@@ -9,9 +9,12 @@ type Data<T> = { [x: string]: T; };
 
 type Options = {
   data?: Data<unknown>;
-  method: string;
+  method?: string;
   headers?: Data<string>;
+  timeout?: number;
 }
+
+type HTTPMethod = (url: string, options?: Options) => Promise<unknown>
 
 function queryStringify(data: Data<unknown>) {
   if (typeof data !== 'object') {
@@ -24,30 +27,18 @@ function queryStringify(data: Data<unknown>) {
 }
 
 export class HTTPTransport {
-  get = (url: string | URL, options = {
-    timeout: 0,
-  }) => {
-
-    return this.request(url, {...options, method: METHODS.GET}, options.timeout);
+  get: HTTPMethod = (url: string | URL, options?: Options) => {
+    return this.request(url, {...options, method: METHODS.GET}, options?.timeout);
   };
-
-  // PUT, POST, DELETE
-  put = (url: string | URL, options = {
-    timeout: 0,
-  }) => {
-    return this.request(url, {...options, method: METHODS.PUT}, options.timeout);
+  put: HTTPMethod = (url: string | URL, options?: Options) => {
+    return this.request(url, {...options, method: METHODS.PUT}, options?.timeout);
   };
-  post = (url: string | URL, options = {
-    timeout: 0,
-  }) => {
-    return this.request(url, {...options, method: METHODS.POST}, options.timeout);
+  post: HTTPMethod = (url: string | URL, options?: Options) => {
+    return this.request(url, {...options, method: METHODS.POST}, options?.timeout);
   };
-  delete = (url: string | URL, options = {
-    timeout: 0,
-  }) => {
-    return this.request(url, {...options, method: METHODS.DELETE}, options.timeout);
+  delete: HTTPMethod = (url: string | URL, options?: Options) => {
+    return this.request(url, {...options, method: METHODS.DELETE}, options?.timeout);
   };
-
 
   // options:
   // headers — obj

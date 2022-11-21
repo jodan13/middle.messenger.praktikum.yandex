@@ -6,7 +6,7 @@ interface Props {
   name: string;
 }
 
-export default class InputChat extends Block {
+export default class InputChat extends Block<Props> {
   constructor({placeholder, iconSearch, name}: Props) {
     super({placeholder, iconSearch, name});
   }
