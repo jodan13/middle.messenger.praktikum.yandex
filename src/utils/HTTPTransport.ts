@@ -27,16 +27,16 @@ function queryStringify(data: Data<unknown>) {
 }
 
 export class HTTPTransport {
-  get: HTTPMethod = (url: string | URL, options?: Options) => {
+  get: HTTPMethod = (url, options) => {
     return this.request(url, {...options, method: METHODS.GET}, options?.timeout);
   };
-  put: HTTPMethod = (url: string | URL, options?: Options) => {
+  put: HTTPMethod = (url, options) => {
     return this.request(url, {...options, method: METHODS.PUT}, options?.timeout);
   };
-  post: HTTPMethod = (url: string | URL, options?: Options) => {
+  post: HTTPMethod = (url, options) => {
     return this.request(url, {...options, method: METHODS.POST}, options?.timeout);
   };
-  delete: HTTPMethod = (url: string | URL, options?: Options) => {
+  delete: HTTPMethod = (url, options) => {
     return this.request(url, {...options, method: METHODS.DELETE}, options?.timeout);
   };
 
