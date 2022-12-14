@@ -3,10 +3,11 @@ import '../../components/modal/modal.css';
 import Block from 'src/utils/Block';
 import { validation } from 'src/utils/validation';
 import { regExpEmail, regExpLogin, regExpName, regExpPassword, regExpPhone } from 'src/utils/const';
+import AuthController from 'src/controllers/AuthController';
 
-export class ProfilePage extends Block<unknown> {
-  constructor(props: {}) {
-    super(props);
+export class ProfilePage extends Block {
+  constructor() {
+    super({});
     this.setProps({
       submit: (event: Event) => {
         event.preventDefault();
@@ -82,7 +83,9 @@ export class ProfilePage extends Block<unknown> {
           formChangePassword.classList.remove('display-none');
         }
       },
-
+      exit: () => {
+        AuthController.logout();
+      },
       openModal: () => {
         const modal = document.getElementById('myModal');
         if (modal) {
@@ -186,7 +189,7 @@ export class ProfilePage extends Block<unknown> {
                     <div class="link">{{{ButtonOpenModal type='changeData' openModal=changeData}}}</div>
                     <!--                    <div class="link"><a id="changeData">Изменить данные</a></div>-->
                     <div class="link">{{{ButtonOpenModal type='changePassword' openModal=changePassword}}}</div>
-                    <div class="link last"><a href="login">Выйти</a></div>
+                    <div class="link last">{{{ButtonOpenModal type='exit' openModal=exit}}}</div>
                 </div>
                 <form id="formChangeData" class="display-none">
                     {{{InputWrapper

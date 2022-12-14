@@ -7,13 +7,15 @@ import InputWrapper from 'src/components/inputWrapper/input';
 import { regExpLogin, regExpPassword } from 'src/utils/const';
 import { validation } from 'src/utils/validation';
 import Block from 'src/utils/Block';
+import AuthController from 'src/controllers/AuthController';
+import { SignupData } from 'src/api/AuthAPI';
 
 registerComponent('Button', Button);
 registerComponent('InputWrapper', InputWrapper);
 
-export class Login extends Block<unknown> {
-  constructor(props: {}) {
-    super(props);
+export class Login extends Block {
+  constructor() {
+    super({});
 
     this.setProps({
       submit: (event: Event) => {
@@ -25,17 +27,18 @@ export class Login extends Block<unknown> {
           const formData = new FormData(form);
           const data = Object.fromEntries(formData.entries());
           console.log(data);
-          let delay = 5;
-          console.log(`переход на страницу home через:`);
-          console.log(delay);
-
-          const timer = setInterval(function () {
-            console.log(--delay);
-            if (!delay) {
-              clearInterval(timer);
-              window.location.href = 'home';
-            }
-          }, 1000);
+          AuthController.signin(data as unknown as SignupData);
+          // let delay = 5;
+          // console.log(`переход на страницу home через:`);
+          // console.log(delay);
+          //
+          // const timer = setInterval(function () {
+          //   console.log(--delay);
+          //   if (!delay) {
+          //     clearInterval(timer);
+          //     window.location.href = 'home';
+          //   }
+          // }, 1000);
         }
       },
       onBlurLogin: ({target}: HTMLInputEvent) => {

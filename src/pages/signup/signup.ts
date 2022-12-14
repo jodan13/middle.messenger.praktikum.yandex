@@ -1,10 +1,12 @@
 import Block from 'src/utils/Block';
 import { validation } from 'src/utils/validation';
 import { regExpEmail, regExpLogin, regExpName, regExpPassword, regExpPhone } from 'src/utils/const';
+import { SignupData } from 'src/api/AuthAPI';
+import AuthController from 'src/controllers/AuthController';
 
-export class Signup extends Block<unknown> {
-  constructor(props: {}) {
-    super(props);
+export class Signup extends Block {
+  constructor() {
+    super({});
     this.setProps({
       submit: (event: Event) => {
         event.preventDefault();
@@ -39,8 +41,11 @@ export class Signup extends Block<unknown> {
 
         if (validForm) {
           const formData = new FormData(form);
-          const data = Object.fromEntries(formData.entries());
+          const data = Object.fromEntries(formData);
+
+          delete data.repeatPassword;
           console.log(data);
+          AuthController.signup(data as unknown as SignupData);
         }
       },
       onBlurEmail: ({target}: HTMLInputEvent) => {

@@ -56,6 +56,9 @@ export class ButtonOpenModal extends Block<Props> {
       case 'changePassword':
         // language=hbs
         return `<a id="changePassword">Изменить пароль</a>`;
+      case 'exit':
+        // language=hbs
+        return `<a id="exit">Выйти</a>`;
       default:
         return '<div>default</div>';
     }

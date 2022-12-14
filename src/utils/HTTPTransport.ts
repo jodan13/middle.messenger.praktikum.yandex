@@ -14,7 +14,8 @@ type Options = {
   timeout?: number;
 }
 
-type HTTPMethod = (url: string, options?: Options) => Promise<unknown>
+type HTTPMethod = (url: string, options?: Options) => Promise<any>
+type HTTPMethodData = (url: string, data?: any, options?: Options) => Promise<any>
 
 function queryStringify(data: Data<unknown>) {
   if (typeof data !== 'object') {
@@ -27,17 +28,24 @@ function queryStringify(data: Data<unknown>) {
 }
 
 export class HTTPTransport {
+  static API_URL = 'https://ya-praktikum.tech/api/v2';
+  protected endpoint: string;
+
+  constructor(endpoint: string) {
+    this.endpoint = `${HTTPTransport.API_URL}${endpoint}`;
+  };
+
   get: HTTPMethod = (url, options) => {
-    return this.request(url, {...options, method: METHODS.GET}, options?.timeout);
+    return this.request(this.endpoint + url, {...options, method: METHODS.GET}, options?.timeout);
   };
   put: HTTPMethod = (url, options) => {
-    return this.request(url, {...options, method: METHODS.PUT}, options?.timeout);
+    return this.request(this.endpoint + url, {...options, method: METHODS.PUT}, options?.timeout);
   };
-  post: HTTPMethod = (url, options) => {
-    return this.request(url, {...options, method: METHODS.POST}, options?.timeout);
+  post: HTTPMethodData = (url, data, options) => {
+    return this.request(this.endpoint + url, {...options, method: METHODS.POST, data}, options?.timeout);
   };
   delete: HTTPMethod = (url, options) => {
-    return this.request(url, {...options, method: METHODS.DELETE}, options?.timeout);
+    return this.request(this.endpoint + url, {...options, method: METHODS.DELETE}, options?.timeout);
   };
 
   // options:
@@ -62,6 +70,17 @@ export class HTTPTransport {
           : url,
       );
 
+      xhr.onreadystatechange = () => {
+
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status < 400) {
+            resolve(xhr.response);
+          } else {
+            reject(xhr.response);
+          }
+        }
+      };
+
       Object.keys(headers).forEach(key => {
         xhr.setRequestHeader(key, headers[key]);
       });
@@ -76,11 +95,17 @@ export class HTTPTransport {
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
 
+      if (!(data instanceof FormData)) {
+        xhr.setRequestHeader('Content-Type', 'application/json');
+      }
+
+      xhr.withCredentials = true;
+      xhr.responseType = 'json';
+
       if (isGet || !data) {
         xhr.send();
       } else {
-        // @ts-ignore
-        xhr.send(data);
+        xhr.send(JSON.stringify(data));
       }
     });
   };
