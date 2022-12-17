@@ -122,3 +122,18 @@
     }
   }
 }
+
+.message-select-chat {
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .text-message-select-chat {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 12px;
+    color: var(--gray-color);
+  }
+}

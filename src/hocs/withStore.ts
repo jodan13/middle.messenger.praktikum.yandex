@@ -1,29 +1,37 @@
 import Block from 'src/utils/Block';
 import store, { StoreEvents } from 'src/utils/Store';
+import { User } from 'src/api/AuthAPI';
+import { ChatInfo } from 'src/api/ChatsAPI';
+import { Message } from 'src/controllers/MessagesController';
 
-export function withStore(mapStateToProps: (state: any) => any) {
+interface State {
+  user: User;
+  chats: ChatInfo[];
+  messages: Record<number, Message[]>;
+  selectedChat?: number;
+}
 
-  return function wrap(Component: typeof Block) {
-    let previousState: any;
-
+export function withStore<SP>(mapStateToProps: (state: State) => SP) {
+  return function wrap<P>(Component: typeof Block<SP & P>) {
 
     return class WithStore extends Component {
 
-      constructor(props: any) {
-        previousState = mapStateToProps(store.getState());
+      constructor(props: Omit<P, keyof SP>) {
+        let previousState = mapStateToProps(store.getState());
 
-        super({...props, ...previousState});
+        super({...(props as P), ...previousState});
 
         store.on(StoreEvents.Updated, () => {
           const stateProps = mapStateToProps(store.getState());
 
           previousState = stateProps;
 
-          this.setProps({...stateProps});
+          this.setProps({...(stateProps as Partial<SP & P>)});
         });
+
       }
+
     };
 
   };
-
 }

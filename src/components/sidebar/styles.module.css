@@ -1,6 +1,13 @@
 .profile-link {
-  align-self: flex-end;
   margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  span {
+    display: flex;
+    align-self: center;
+  }
 }
 
 .chat-list {

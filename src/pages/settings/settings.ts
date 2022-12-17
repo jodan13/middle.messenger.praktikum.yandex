@@ -28,10 +28,10 @@ export class SettingsPage extends Block {
           const formData = new FormData(form);
           const data = Object.fromEntries(formData.entries());
           console.log(data);
-          const profileBodyInfo = document.querySelector('.settings-body-info');
+          const profileBodyInfo = document.getElementsByClassName(styles['profile-body-info'])[0];
           const formChangeData = document.querySelector('#formChangeData');
-          profileBodyInfo!.classList.remove('display-none');
-          formChangeData!.classList.add('display-none');
+          profileBodyInfo!.classList.remove(styles['display-none']);
+          formChangeData!.classList.add(styles['display-none']);
         }
       },
       submitPass: (event: Event) => {
@@ -60,27 +60,35 @@ export class SettingsPage extends Block {
           console.log(data);
 
           const formChangePassword = document.querySelector('#formChangePassword');
-          const profileBodyInfo = document.querySelector('.settings-body-info');
-          profileBodyInfo!.classList.remove('display-none');
-          formChangePassword!.classList.add('display-none');
+          const profileBodyInfo = document.getElementsByClassName(styles['profile-body-info'])[0];
+          profileBodyInfo!.classList.remove(styles['display-none']);
+          formChangePassword!.classList.add(styles['display-none']);
         }
       },
-
+      cancel: (event: Event) => {
+        event.preventDefault();
+        const profileBodyInfo = document.getElementsByClassName(styles['profile-body-info'])[0];
+        const formChangeData = document.querySelector('#formChangeData');
+        const formChangePassword = document.querySelector('#formChangePassword');
+        profileBodyInfo!.classList.remove(styles['display-none']);
+        formChangeData!.classList.add(styles['display-none']);
+        formChangePassword!.classList.add(styles['display-none']);
+      },
       changeData: () => {
         const formChangeData = document.querySelector('#formChangeData');
-        const profileBodyInfo = document.querySelector('.settings-body-info');
+        const profileBodyInfo = document.getElementsByClassName(styles['profile-body-info'])[0];
         if (formChangeData && profileBodyInfo) {
-          profileBodyInfo.classList.add('display-none');
-          formChangeData.classList.remove('display-none');
+          profileBodyInfo.classList.add(styles['display-none']);
+          formChangeData.classList.remove(styles['display-none']);
         }
       },
       changePassword: () => {
         const formChangePassword = document.querySelector('#formChangePassword');
-        const profileBodyInfo = document.querySelector('.settings-body-info');
+        const profileBodyInfo = document.getElementsByClassName(styles['profile-body-info'])[0];
         console.log(formChangePassword, profileBodyInfo);
         if (formChangePassword && profileBodyInfo) {
-          profileBodyInfo.classList.add('display-none');
-          formChangePassword.classList.remove('display-none');
+          profileBodyInfo.classList.add(styles['display-none']);
+          formChangePassword.classList.remove(styles['display-none']);
         }
       },
       exit: () => {
@@ -237,6 +245,7 @@ export class SettingsPage extends Block {
                             textError="Введите телефон"
                     }}}
                     {{{Button value="Сохранить" type="submit" onClick=submit}}}
+                    {{{Button value="Отмена" type="button" onClick=cancel}}}
                 </form>
                 <form id="formChangePassword" class="{{styles.display-none}}">
                     {{{InputWrapper
@@ -264,6 +273,7 @@ export class SettingsPage extends Block {
                             textError="от 8 до 40 символов, одна заглавная буква и цифра"
                     }}}
                     {{{Button value="Сохранить" type="submit" onClick=submitPass}}}
+                    {{{Button value="Отмена" type="button" onClick=cancel}}}
                 </form>
             </div>
             {{{Modal}}}

@@ -15,4 +15,9 @@
     line-height: 13px;
     width: 100%;
   }
+
+  &[type="button"] {
+    background-color: var(--color-gray-100);
+    color: white;
+  }
 }

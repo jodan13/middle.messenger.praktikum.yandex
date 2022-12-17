@@ -17,6 +17,12 @@
       bottom: 0;
       margin-bottom: 53px;
     }
+
+    &-left {
+      @mixin dropdown-content;
+
+      right: auto;
+    }
   }
 
   [data-active] {

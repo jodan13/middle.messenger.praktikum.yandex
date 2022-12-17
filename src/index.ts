@@ -3,8 +3,7 @@ import './styles.css';
 import 'src/components/inputWrapper/styles.module.css';
 // import 'src/components/button/styles.module.css';
 import registerComponent from 'src/utils/registerComponent';
-import { ButtonDropdownFile } from 'src/components/buttonDropdownFile/buttonDropdownFile';
-import { ButtonDropdownDots } from 'src/components/buttonDropdownDots/buttonDropdownDots';
+import { ButtonDropdown } from 'src/components/buttonDropdown/buttonDropdown';
 import { ButtonOpenModal } from 'src/components/buttonOpenModal/buttonOpenModal';
 import { Login } from 'src/pages/login/login';
 import { SettingsPage } from 'src/pages/settings/settings';
@@ -15,9 +14,7 @@ import { MessengerPage } from 'src/pages/messenger/messenger';
 import { ErrorPage } from 'src/pages/error/error';
 import { Link } from 'src/components/Link/link';
 
-
-registerComponent('ButtonDropdownFile', ButtonDropdownFile);
-registerComponent('ButtonDropdownDots', ButtonDropdownDots);
+registerComponent('ButtonDropdown', ButtonDropdown);
 registerComponent('ButtonOpenModal', ButtonOpenModal);
 registerComponent('Link', Link);
 

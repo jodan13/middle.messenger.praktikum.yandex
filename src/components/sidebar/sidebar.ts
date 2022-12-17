@@ -3,26 +3,39 @@ import registerComponent from 'src/utils/registerComponent';
 import InputChat from 'src/components/inputChat/inputChat';
 import ContactCard from 'src/components/contactCard/contactCard';
 import styles from './styles.module.css';
+import { getFormattedTime } from 'src/utils/getFormattedTime';
+import chatsResponse from 'src/data/chatsResponse.json';
+import img from 'static/img/default-user.png';
+import { withStore } from 'src/hocs/withStore';
+import { ChatInfo } from 'src/api/ChatsAPI';
 
 registerComponent('InputChat', InputChat);
 registerComponent('ContactCard', ContactCard);
 
+const modifiedChatsReply = getFormattedTime(chatsResponse);
+
 interface Props {
-  img: string;
-  modifiedChatsReply: Record<string, unknown>[];
+  img?: string;
+  modifiedChatsReply?: Record<string, unknown>[];
   styles?: typeof styles;
+  chats: ChatInfo[];
+  isLoaded: boolean;
 }
 
-export class Sidebar extends Block<Props> {
-  constructor({img, modifiedChatsReply}: Props) {
-    super({img, modifiedChatsReply, styles});
+class SidebarBase extends Block<Props> {
+  constructor({chats, isLoaded}: Props) {
+    super({img, modifiedChatsReply, styles, chats, isLoaded});
   }
 
   render() {
     // language=hbs
     return `
         <aside class="{{styles.chat-list}}">
-            <div class="{{styles.profile-link}}">{{{Link label='Профиль 🡢' to='/settings'}}}</div>
+
+            <div class="{{styles.profile-link}}">
+                {{{Dropdown id="myDropdownChat" chat="true"}}}
+                {{{Link label='Профиль 🡢' to='/settings'}}}
+            </div>
             <form>
                 {{{InputChat placeholder="Поиск" iconSearch="true" name="search" }}}
             </form>
@@ -37,3 +50,9 @@ export class Sidebar extends Block<Props> {
     `;
   }
 }
+
+const withChats = withStore((state) => ({chats: [...(state.chats || [])]}));
+
+const Sidebar = withChats(SidebarBase);
+
+export default Sidebar;

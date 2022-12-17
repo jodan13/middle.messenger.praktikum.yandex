@@ -6,35 +6,22 @@ import 'src/components/dropdown/styles.module.css';
 import 'src/components/modal/styles.module.css';
 
 import registerComponent from 'src/utils/registerComponent';
-import { Sidebar } from 'src/components/sidebar/sidebar';
+import Sidebar from 'src/components/sidebar/sidebar';
 import { Dropdown } from 'src/components/dropdown/dropdown';
 import { Modal } from 'src/components/modal/modal';
 import { ButtonSendMessage } from 'src/components/buttonSendMessage/buttonSendMessage';
-import { getFormattedTime } from 'src/utils/getFormattedTime';
-import img from 'static/img/default-user.png';
 import ChatsController from '../../controllers/ChatsController';
-import chatsResponse from 'src/data/chatsResponse.json';
 import styles from 'src/pages/messenger/styles.module.css';
 
-const modifiedChatsReply = getFormattedTime(chatsResponse);
 
 registerComponent('Sidebar', Sidebar);
 registerComponent('Dropdown', Dropdown);
 registerComponent('Modal', Modal);
 registerComponent('ButtonSendMessage', ButtonSendMessage);
 
-// interface Props {
-//   img?: string;
-//   modifiedChatsReply?: Record<string, unknown>[];
-//   getIdChat?: (event: Event) => void;
-//   onclickMessage?: (event: Event) => void;
-// }
-
-export class MessengerPage extends Block/* <Props> */ {
+export class MessengerPage extends Block {
   constructor() {
-    // constructor({img, modifiedChatsReply}: Props) {
-    super({img, modifiedChatsReply, styles});
-    // super({});
+    super({styles});
     this.setProps({
       getIdChat: () => {
         const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -88,7 +75,7 @@ export class MessengerPage extends Block/* <Props> */ {
     // language=hbs
     return `
         <div class="{{styles.chat}}">
-            {{{Sidebar img=img modifiedChatsReply=modifiedChatsReply}}}
+            {{{Sidebar}}}
             {{#if getIdChat}}
                 <div class="{{styles.chat-message}}">
                     <div class="{{styles.chat-message-header}}">
@@ -131,16 +118,16 @@ export class MessengerPage extends Block/* <Props> */ {
                         </div>
                     </div>
                     <div class="{{styles.chat-message-footer}}">
-                        {{{ Dropdown  id="myDropdownFile" message=true}}}
+                        {{{Dropdown  id="myDropdownFile" message=true}}}
                         <form id="formMessage">
-                            {{{ InputChat placeholder="Сообщение" name="message" iconSearch="false"}}}
-                            {{{ ButtonSendMessage onClick=onclickMessage }}}
+                            {{{InputChat placeholder="Сообщение" name="message" iconSearch="false"}}}
+                            {{{ButtonSendMessage onClick=onclickMessage}}}
                         </form>
                     </div>
                 </div>
             {{else}}
-                <div class="{{styles.message}}">
-                    <p>Выберите чат чтобы отправить сообщение</p>
+                <div class="{{styles.message-select-chat}}">
+                    <p class="{{styles.text-message-select-chat}}">Выберите чат чтобы отправить сообщение</p>
                 </div>
             {{/if}}
             {{{Modal}}}
