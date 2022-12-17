@@ -3,10 +3,11 @@ import { validation } from 'src/utils/validation';
 import { regExpEmail, regExpLogin, regExpName, regExpPassword, regExpPhone } from 'src/utils/const';
 import { SignupData } from 'src/api/AuthAPI';
 import AuthController from 'src/controllers/AuthController';
+import styles from './styles.module.css';
 
-export class Signup extends Block {
+export class SignUp extends Block {
   constructor() {
-    super({});
+    super({styles});
     this.setProps({
       submit: (event: Event) => {
         event.preventDefault();
@@ -73,9 +74,9 @@ export class Signup extends Block {
   render() {
     // language=hbs
     return `
-        <div class="wrapper">
-            <div class="sign-in">
-                <h1 class="title">Регистрация</h1>
+        <div class="{{styles.wrapper}}">
+            <div class="{{styles.sign-in}}">
+                <h1 class="{{styles.title}}">Регистрация</h1>
                 <form id="registryForm">
                     {{{InputWrapper
                             type="email"
@@ -134,7 +135,7 @@ export class Signup extends Block {
                             textError="от 8 до 40 символов, одна заглавная буква и цифра"
                     }}}
                     {{{Button value="Регистрация" type="submit" onClick=submit}}}
-                    <a href="login">Войти</a>
+                    {{{Link label='Войти' to='/'}}}
                 </form>
             </div>
         </div>

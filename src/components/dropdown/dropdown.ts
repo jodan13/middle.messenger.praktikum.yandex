@@ -1,53 +1,45 @@
 import Block from 'src/utils/Block';
-// import { ButtonDropdownFile } from '../buttonDropdownFile/buttonDropdownFile';
-// import { ButtonDropdownDots } from '../ButtonDropdownDots/ButtonDropdownDots';
-// import { ButtonOpenModal } from '../buttonOpenModal/buttonOpenModal';
-//
-// registerComponent('ButtonDropdownFile', ButtonDropdownFile);
-// registerComponent('ButtonDropdownDots', ButtonDropdownDots);
-// registerComponent('ButtonOpenModal', ButtonOpenModal);
+import styles from './styles.module.css';
+
 
 interface Props {
   id?: string;
   message?: string;
-  top?: string;
   onClickFile?: (event: Event) => void;
   onClick?: (event: Event) => void;
   openModalAddUser?: (event: Event) => void;
   openModalDelUser?: (event: Event) => void;
+  styles?: typeof styles;
 }
 
 export class Dropdown extends Block<Props> {
-  constructor({id, message, top}: Props) {
-    super({id, message, top});
+  constructor({id, message}: Props) {
+    super({id, message, styles});
     window.addEventListener('click', (event) => {
-      if (event.target instanceof Element && !event.target.closest('.menu-dots')) {
+      if (event.target instanceof Element && !event.target.closest('#menuDotsButton')) {
         const myDropdown = document.getElementById('myDropdown');
-        if (myDropdown && myDropdown.classList.contains('show')) {
-          myDropdown.classList.remove('show');
+        if (myDropdown && myDropdown.dataset.active) {
+          myDropdown.removeAttribute('data-active');
         }
       }
-      if (event.target instanceof Element && !event.target.closest('.attach-file')) {
+      if (event.target instanceof Element && !event.target.closest('#myDropdownFileButton')) {
         const myDropdownFile = document.getElementById('myDropdownFile');
-        if (myDropdownFile && myDropdownFile.classList.contains('show')) {
-          myDropdownFile.classList.remove('show');
+        if (myDropdownFile && myDropdownFile.dataset.active) {
+          myDropdownFile.removeAttribute('data-active');
         }
       }
     });
     this.setProps({
       onClickFile: (event: Event) => {
         event.preventDefault();
+        console.log('click');
         const myDropdownFile = document.getElementById('myDropdownFile');
-        if (myDropdownFile) {
-          myDropdownFile.classList.toggle('show');
-        }
+        myDropdownFile!.dataset.active = 'true';
       },
       onClick: (event: Event) => {
         event.preventDefault();
         const myDropdown = document.getElementById('myDropdown');
-        if (myDropdown) {
-          myDropdown.classList.toggle('show');
-        }
+        myDropdown!.dataset.active = 'true';
       },
       openModalAddUser: (event: Event) => {
         event.preventDefault();
@@ -85,14 +77,15 @@ export class Dropdown extends Block<Props> {
   render() {
     // language=hbs
     return `
-        <div class="dropdown">
+        <div class="{{styles.dropdown}}">
             {{#if message}}
                 {{{ButtonDropdownFile onClickFile=onClickFile}}}
             {{else}}
                 {{{ButtonDropdownDots onClick=onClick}}}
             {{/if}}
-            <div id="{{id}}" class="dropdown-content {{top}}">
-                {{#if message}}
+
+            {{#if message}}
+                <div id="{{id}}" class="{{styles.dropdown-content-top}}">
                     <a href="#">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -119,11 +112,14 @@ export class Dropdown extends Block<Props> {
                         </svg>
                         <span>Локация</span>
                     </a>
-                {{else}}
+                </div>
+            {{else}}
+                <div id="{{id}}" class="{{styles.dropdown-content}}">
                     {{{ButtonOpenModal type='openModalAddUser' openModal=openModalAddUser}}}
                     {{{ButtonOpenModal type='openModalDelUser' openModal=openModalDelUser}}}
-                {{/if}}
-            </div>
+                </div>
+            {{/if}}
+        </div>
         </div>
     `;
   }

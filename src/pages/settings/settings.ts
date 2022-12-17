@@ -1,13 +1,13 @@
-import './profile.css';
-import '../../components/modal/modal.css';
+import 'src/components/modal/styles.module.css';
 import Block from 'src/utils/Block';
 import { validation } from 'src/utils/validation';
 import { regExpEmail, regExpLogin, regExpName, regExpPassword, regExpPhone } from 'src/utils/const';
 import AuthController from 'src/controllers/AuthController';
+import styles from 'src/pages/settings/styles.module.css';
 
-export class ProfilePage extends Block {
+export class SettingsPage extends Block {
   constructor() {
-    super({});
+    super({styles});
     this.setProps({
       submit: (event: Event) => {
         event.preventDefault();
@@ -28,7 +28,7 @@ export class ProfilePage extends Block {
           const formData = new FormData(form);
           const data = Object.fromEntries(formData.entries());
           console.log(data);
-          const profileBodyInfo = document.querySelector('.profile-body-info');
+          const profileBodyInfo = document.querySelector('.settings-body-info');
           const formChangeData = document.querySelector('#formChangeData');
           profileBodyInfo!.classList.remove('display-none');
           formChangeData!.classList.add('display-none');
@@ -60,7 +60,7 @@ export class ProfilePage extends Block {
           console.log(data);
 
           const formChangePassword = document.querySelector('#formChangePassword');
-          const profileBodyInfo = document.querySelector('.profile-body-info');
+          const profileBodyInfo = document.querySelector('.settings-body-info');
           profileBodyInfo!.classList.remove('display-none');
           formChangePassword!.classList.add('display-none');
         }
@@ -68,7 +68,7 @@ export class ProfilePage extends Block {
 
       changeData: () => {
         const formChangeData = document.querySelector('#formChangeData');
-        const profileBodyInfo = document.querySelector('.profile-body-info');
+        const profileBodyInfo = document.querySelector('.settings-body-info');
         if (formChangeData && profileBodyInfo) {
           profileBodyInfo.classList.add('display-none');
           formChangeData.classList.remove('display-none');
@@ -76,7 +76,7 @@ export class ProfilePage extends Block {
       },
       changePassword: () => {
         const formChangePassword = document.querySelector('#formChangePassword');
-        const profileBodyInfo = document.querySelector('.profile-body-info');
+        const profileBodyInfo = document.querySelector('.settings-body-info');
         console.log(formChangePassword, profileBodyInfo);
         if (formChangePassword && profileBodyInfo) {
           profileBodyInfo.classList.add('display-none');
@@ -113,6 +113,8 @@ export class ProfilePage extends Block {
           const modalLabelSpan = modal.querySelector('label span');
           if (modalLabelSpan) {
             modalLabelSpan.classList.add('file');
+            //data-file
+            modalLabelSpan.setAttribute('data-file', 'file');
           }
           const modalFormSubmit = modal.querySelector('input[type=submit]') as HTMLInputElement;
           if (modalFormSubmit) {
@@ -146,52 +148,46 @@ export class ProfilePage extends Block {
   render() {
     // language=hbs
     return `
-        <div class="profile">
-            <aside class="profile-sidebar">
-                <a href="home" class="profile-sidebar">
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="14" cy="14" r="14" transform="rotate(-180 14 14)" fill="var(--link-color)"/>
-                        <rect x="20" y="14.8" width="11" height="1.6" transform="rotate(-180 20 14.8)" fill="white"
-                              stroke="white"/>
-                        <path d="M13 19L9 14L13 9" stroke="white" stroke-width="1.6"/>
-                    </svg>
-                </a>
+        <div class="{{styles.profile}}">
+            <aside class="{{styles.profile-sidebar}}">
+                {{{Link label='Войти' to='/messenger' linkSidebar=true }}}
             </aside>
-            <div class="profile-body">
+            <div class="{{styles.profile-body}}">
 
                 {{{ButtonOpenModal type="openModalUploadAvatar" openModal=openModal}}}
-                <div class="profile-body-info">
+                <div class="{{styles.profile-body-info}}">
                     <h2>Иван</h2>
-                    <div class="info">
-                        <p class="white">Почта</p>
-                        <p class="gray">pochta@yandex.ru</p>
+                    <div class="{{styles.info}}">
+                        <p class="{{styles.white}}">Почта</p>
+                        <p class="{{styles.gray}}">pochta@yandex.ru</p>
                     </div>
-                    <div class="info">
-                        <p class="white">Логин</p>
-                        <p class="gray">IvanIvanov</p>
+                    <div class="{{styles.info}}">
+                        <p class="{{styles.white}}">Логин</p>
+                        <p class="{{styles.gray}}">IvanIvanov</p>
                     </div>
-                    <div class="info">
-                        <p class="white">Имя</p>
-                        <p class="gray">Иван</p>
+                    <div class="{{styles.info}}">
+                        <p class="{{styles.white}}">Имя</p>
+                        <p class="{{styles.gray}}">Иван</p>
                     </div>
-                    <div class="info">
-                        <p class="white">Фамилия</p>
-                        <p class="gray">Иванов</p>
+                    <div class="{{styles.info}}">
+                        <p class="{{styles.white}}">Фамилия</p>
+                        <p class="{{styles.gray}}">Иванов</p>
                     </div>
-                    <div class="info">
-                        <p class="white">Имя в чате</p>
-                        <p class="gray">Иван</p>
+                    <div class="{{styles.info}}">
+                        <p class="{{styles.white}}">Имя в чате</p>
+                        <p class="{{styles.gray}}">Иван</p>
                     </div>
-                    <div class="info last">
-                        <p class="white">Телефон</p>
-                        <p class="gray">+7 (909) 967 30 30</p>
+                    <div class="{{styles.info}}" data-last="true">
+                        <p class="{{styles.white}}">Телефон</p>
+                        <p class="{{styles.gray}}">+7 (909) 967 30 30</p>
                     </div>
-                    <div class="link">{{{ButtonOpenModal type='changeData' openModal=changeData}}}</div>
+                    <div class="{{styles.link}}">{{{ButtonOpenModal type='changeData' openModal=changeData}}}</div>
                     <!--                    <div class="link"><a id="changeData">Изменить данные</a></div>-->
-                    <div class="link">{{{ButtonOpenModal type='changePassword' openModal=changePassword}}}</div>
-                    <div class="link last">{{{ButtonOpenModal type='exit' openModal=exit}}}</div>
+                    <div class="{{styles.link}}">{{{ButtonOpenModal type='changePassword'
+                                                                    openModal=changePassword}}}</div>
+                    <div class="{{styles.link}}" data-last="true">{{{ButtonOpenModal type='exit' openModal=exit}}}</div>
                 </div>
-                <form id="formChangeData" class="display-none">
+                <form id="formChangeData" class="{{styles.display-none}}">
                     {{{InputWrapper
                             type="email"
                             name="email"
@@ -242,7 +238,7 @@ export class ProfilePage extends Block {
                     }}}
                     {{{Button value="Сохранить" type="submit" onClick=submit}}}
                 </form>
-                <form id="formChangePassword" class="display-none">
+                <form id="formChangePassword" class="{{styles.display-none}}">
                     {{{InputWrapper
                             type="password"
                             name="oldPassword"

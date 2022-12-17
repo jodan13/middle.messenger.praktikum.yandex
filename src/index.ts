@@ -1,33 +1,41 @@
 import './normalize.css';
 import './styles.css';
-import './components/inputWrapper/input.css';
-import './components/button/button.css';
+import 'src/components/inputWrapper/styles.module.css';
+// import 'src/components/button/styles.module.css';
 import registerComponent from 'src/utils/registerComponent';
 import { ButtonDropdownFile } from 'src/components/buttonDropdownFile/buttonDropdownFile';
 import { ButtonDropdownDots } from 'src/components/buttonDropdownDots/buttonDropdownDots';
 import { ButtonOpenModal } from 'src/components/buttonOpenModal/buttonOpenModal';
 import { Login } from 'src/pages/login/login';
-import { ProfilePage } from 'src/pages/profile/profile';
+import { SettingsPage } from 'src/pages/settings/settings';
 import AuthController from 'src/controllers/AuthController';
 import Router from 'src/utils/Router';
-import { Signup } from 'src/pages/signup/signup';
+import { SignUp } from 'src/pages/sign-up/sign-up';
+import { MessengerPage } from 'src/pages/messenger/messenger';
+import { ErrorPage } from 'src/pages/error/error';
+import { Link } from 'src/components/Link/link';
 
 
 registerComponent('ButtonDropdownFile', ButtonDropdownFile);
 registerComponent('ButtonDropdownDots', ButtonDropdownDots);
 registerComponent('ButtonOpenModal', ButtonOpenModal);
+registerComponent('Link', Link);
 
 enum Routes {
   Index = '/',
-  Signup = '/signup',
-  Profile = '/profile'
+  Signup = '/sign-up',
+  Settings = '/settings',
+  Messenger = '/messenger',
+  Error404 = '/error404',
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
   Router
     .use(Routes.Index, Login)
-    .use(Routes.Signup, Signup)
-    .use(Routes.Profile, ProfilePage);
+    .use(Routes.Signup, SignUp)
+    .use(Routes.Settings, SettingsPage)
+    .use(Routes.Messenger, MessengerPage)
+    .use(Routes.Error404, ErrorPage, {title: '404', text: 'Страница не найдена'});
 
   let isProtectedRoute = true;
 
@@ -44,7 +52,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     Router.start();
     if (!isProtectedRoute) {
       console.log('ROUTER START');
-      Router.go(Routes.Profile);
+      Router.go(Routes.Messenger);
     }
   } catch (e) {
     Router.start();

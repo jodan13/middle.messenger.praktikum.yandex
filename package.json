@@ -20,6 +20,8 @@
     "eslint-config-airbnb": "19.0.4",
     "parcel": "2.8.0",
     "postcss": "8.4.18",
+    "postcss-import": "^15.1.0",
+    "postcss-mixins": "^9.0.4",
     "postcss-nested": "6.0.0",
     "stylelint": "14.14.1",
     "stylelint-config-standard": "29.0.0",

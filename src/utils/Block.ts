@@ -73,7 +73,7 @@ export default class Block<P = any> {
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
-  init() {
+  protected init() {
   }
 
   _componentDidMount() {

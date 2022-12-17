@@ -1,5 +1,10 @@
 import Block from './Block';
 
+interface Props {
+  title: string;
+  text: string;
+}
+
 function isEqual(lhs: string, rhs: string): boolean {
   return lhs === rhs;
 }
@@ -23,8 +28,10 @@ class Route {
 
   constructor(
     private pathname: string,
-    private readonly blockClass: typeof Block,
-    private readonly query: string) {
+    private readonly blockClass: typeof Block<Props | unknown>,
+    private readonly query: string,
+    private readonly props?: Props,
+  ) {
   }
 
   leave() {
@@ -37,7 +44,7 @@ class Route {
 
   render() {
     if (!this.block) {
-      this.block = new this.blockClass({});
+      this.block = new this.blockClass(this.props ? this.props : {});
 
       render(this.query, this.block);
       return;
@@ -61,8 +68,8 @@ class Router {
     Router.__instance = this;
   }
 
-  public use(pathname: string, block: typeof Block) {
-    const route = new Route(pathname, block, this.rootQuery);
+  public use(pathname: string, block: typeof Block<Props>, props?: Props) {
+    const route = new Route(pathname, block, this.rootQuery, props);
     this.routes.push(route);
 
     return this;
@@ -73,7 +80,7 @@ class Router {
       const target = event.currentTarget as Window;
 
       this._onRoute(target.location.pathname);
-    }
+    };
 
     this._onRoute(window.location.pathname);
   }
@@ -82,6 +89,7 @@ class Router {
     const route = this.getRoute(pathname);
 
     if (!route) {
+
       return;
     }
 

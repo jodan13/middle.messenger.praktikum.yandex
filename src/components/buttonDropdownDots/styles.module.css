@@ -1,0 +1,18 @@
+@import "../../mixin.css";
+
+.menu-dots {
+  @mixin reset-button;
+
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  font-size: 20px;
+
+  &:hover {
+    background: var(--bg-message);
+
+    circle {
+      fill: var(--link-color);
+    }
+  }
+}

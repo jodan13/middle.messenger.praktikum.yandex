@@ -1,5 +1,6 @@
 .search-input {
   width: 100%;
+  position: relative;
 
   &__input {
     display: block;
@@ -38,7 +39,7 @@
     }
   }
 
-  &.icon-search {
+  &[data-icon-search="true"] {
     position: relative;
 
     &::before {

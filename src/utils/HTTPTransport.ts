@@ -14,8 +14,8 @@ type Options = {
   timeout?: number;
 }
 
-type HTTPMethod = (url: string, options?: Options) => Promise<any>
-type HTTPMethodData = (url: string, data?: any, options?: Options) => Promise<any>
+type HTTPMethod = <Response = void>(url: string, options?: Options) => Promise<Response>
+type HTTPMethodData = <Response = void>(url: string, data?: any, options?: Options) => Promise<Response>
 
 function queryStringify(data: Data<unknown>) {
   if (typeof data !== 'object') {
@@ -38,20 +38,21 @@ export class HTTPTransport {
   get: HTTPMethod = (url, options) => {
     return this.request(this.endpoint + url, {...options, method: METHODS.GET}, options?.timeout);
   };
-  put: HTTPMethod = (url, options) => {
+  put: HTTPMethodData = (url, options) => {
     return this.request(this.endpoint + url, {...options, method: METHODS.PUT}, options?.timeout);
   };
   post: HTTPMethodData = (url, data, options) => {
-    return this.request(this.endpoint + url, {...options, method: METHODS.POST, data}, options?.timeout);
+    return this.request(this.endpoint + url, {
+      ...options,
+      method: METHODS.POST,
+      data,
+    }, options?.timeout) as Promise<any>;
   };
-  delete: HTTPMethod = (url, options) => {
+  delete: HTTPMethodData = (url, options) => {
     return this.request(this.endpoint + url, {...options, method: METHODS.DELETE}, options?.timeout);
   };
 
-  // options:
-  // headers — obj
-  // data — obj
-  request = (url: string | URL, options: Options, timeout = 5000) => {
+  private request<Response>(url: string | URL, options: Options, timeout = 5000): Promise<Response> {
     const {headers = {}, method, data} = options;
 
     return new Promise((resolve, reject) => {
@@ -84,10 +85,6 @@ export class HTTPTransport {
       Object.keys(headers).forEach(key => {
         xhr.setRequestHeader(key, headers[key]);
       });
-
-      xhr.onload = function () {
-        resolve(xhr);
-      };
 
       xhr.onabort = reject;
       xhr.onerror = reject;

@@ -1,10 +1,11 @@
 import Block from 'src/utils/Block';
 import { validation } from 'src/utils/validation';
 import { regExpLogin } from 'src/utils/const';
+import styles from './styles.module.css';
 
 export class Modal extends Block<unknown> {
   constructor() {
-    super({});
+    super({styles});
     window.addEventListener('click', (event) => {
       if (this._element && event.target === this._element) {
         this._element.style.display = 'none';
@@ -36,8 +37,8 @@ export class Modal extends Block<unknown> {
   render() {
     // language=hbs
     return `
-        <div id="myModal" class="modal">
-            <div class="modal-content">
+        <div id="myModal" class="{{styles.modal}}">
+            <div class="{{styles.modal-content}}">
                 <h3>Добавить пользователя</h3>
                 <form id="modalForm">
                     {{{InputWrapper

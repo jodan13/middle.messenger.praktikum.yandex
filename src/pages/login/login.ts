@@ -1,6 +1,3 @@
-import './login.css';
-import '../../components/inputWrapper/input.css';
-import '../../components/button/button.css';
 import registerComponent from 'src/utils/registerComponent';
 import Button from 'src/components/button/button';
 import InputWrapper from 'src/components/inputWrapper/input';
@@ -9,13 +6,15 @@ import { validation } from 'src/utils/validation';
 import Block from 'src/utils/Block';
 import AuthController from 'src/controllers/AuthController';
 import { SignupData } from 'src/api/AuthAPI';
+import styles from './styles.module.css';
 
 registerComponent('Button', Button);
 registerComponent('InputWrapper', InputWrapper);
 
+
 export class Login extends Block {
   constructor() {
-    super({});
+    super({styles});
 
     this.setProps({
       submit: (event: Event) => {
@@ -29,14 +28,14 @@ export class Login extends Block {
           console.log(data);
           AuthController.signin(data as unknown as SignupData);
           // let delay = 5;
-          // console.log(`переход на страницу home через:`);
+          // console.log(`переход на страницу messenger через:`);
           // console.log(delay);
           //
           // const timer = setInterval(function () {
           //   console.log(--delay);
           //   if (!delay) {
           //     clearInterval(timer);
-          //     window.location.href = 'home';
+          //     window.location.href = 'messenger';
           //   }
           // }, 1000);
         }
@@ -64,9 +63,9 @@ export class Login extends Block {
   render() {
     // language=hbs
     return `
-        <div class="wrapper">
-            <div class="sign-in">
-                <h1 class="title">Вход</h1>
+        <div class="{{styles.wrapper}}">
+            <div class="{{styles.sign-in}}">
+                <h1 class="{{styles.title}}">Вход</h1>
                 <form id="loginForm">
                     {{{InputWrapper
                             type="text"
@@ -85,7 +84,7 @@ export class Login extends Block {
                             textError="от 8 до 40 символов, одна заглавная буква и цифра"
                     }}}
                     {{{Button value="Войти" type="submit" onClick=submit}}}
-                    <a href="signup">Регистрация</a>
+                    {{{Link label='Регистрация' to='/sign-up'}}}
                 </form>
             </div>
         </div>`;

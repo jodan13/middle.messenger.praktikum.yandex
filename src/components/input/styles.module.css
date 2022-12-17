@@ -1,0 +1,26 @@
+.input {
+  &[type="text"],
+  &[type="password"],
+  &[type="email"],
+  &[type="tel"] {
+    width: 100%;
+    padding: 10px 14px;
+    margin: 8px 0 4px;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 13px;
+    color: var(--text-color);
+    background: inherit;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+  }
+
+  &[type="file"] {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+  }
+}

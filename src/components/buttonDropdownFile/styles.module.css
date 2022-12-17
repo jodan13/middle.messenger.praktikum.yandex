@@ -1,0 +1,7 @@
+@import "../../mixin.css";
+
+.attach-file {
+  @mixin reset-button;
+
+  margin-right: 10px;
+}

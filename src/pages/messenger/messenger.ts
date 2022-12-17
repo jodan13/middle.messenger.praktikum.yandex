@@ -1,32 +1,40 @@
 import Block from 'src/utils/Block';
 
-import './home.css';
-import '../../components/inputChat/inputChat.css';
-import '../../components/sidebar/sidebar.css';
-import '../../components/dropdown/dropdown.css';
-import '../../components/modal/modal.css';
+import 'src/components/inputChat/styles.module.css';
+import 'src/components/sidebar/styles.module.css';
+import 'src/components/dropdown/styles.module.css';
+import 'src/components/modal/styles.module.css';
 
 import registerComponent from 'src/utils/registerComponent';
 import { Sidebar } from 'src/components/sidebar/sidebar';
 import { Dropdown } from 'src/components/dropdown/dropdown';
 import { Modal } from 'src/components/modal/modal';
 import { ButtonSendMessage } from 'src/components/buttonSendMessage/buttonSendMessage';
+import { getFormattedTime } from 'src/utils/getFormattedTime';
+import img from 'static/img/default-user.png';
+import ChatsController from '../../controllers/ChatsController';
+import chatsResponse from 'src/data/chatsResponse.json';
+import styles from 'src/pages/messenger/styles.module.css';
+
+const modifiedChatsReply = getFormattedTime(chatsResponse);
 
 registerComponent('Sidebar', Sidebar);
 registerComponent('Dropdown', Dropdown);
 registerComponent('Modal', Modal);
 registerComponent('ButtonSendMessage', ButtonSendMessage);
 
-interface Props {
-  img?: string;
-  modifiedChatsReply?: Record<string, unknown>[];
-  getIdChat?: (event: Event) => void;
-  onclickMessage?: (event: Event) => void;
-}
+// interface Props {
+//   img?: string;
+//   modifiedChatsReply?: Record<string, unknown>[];
+//   getIdChat?: (event: Event) => void;
+//   onclickMessage?: (event: Event) => void;
+// }
 
-export class HomePage extends Block<Props> {
-  constructor({img, modifiedChatsReply}: Props) {
-    super({img, modifiedChatsReply});
+export class MessengerPage extends Block/* <Props> */ {
+  constructor() {
+    // constructor({img, modifiedChatsReply}: Props) {
+    super({img, modifiedChatsReply, styles});
+    // super({});
     this.setProps({
       getIdChat: () => {
         const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -42,17 +50,17 @@ export class HomePage extends Block<Props> {
           const message = input.value;
           console.log(input.value);
           input.value = '';
-          const chat = document.querySelector('.chat-message-content-text') as HTMLElement;
+          const chat = document.querySelector('#chat-message-content-text') as HTMLElement;
           const date = new Date();
           const time = `${date.getHours()}:${date.getMinutes()}`;
           const div = document.createElement('div');
-          div.classList.add('message');
-          div.classList.add('your');
+          div.classList.add(styles.message);
+          div.dataset.my = 'true';
           div.innerHTML = `
-            <div class="message-content">
+            <div class="${styles['message-content']}" data-my="true">
                 <p>${message}</p>
             </div>
-            <div class="message-time">
+            <div class="${styles['message-time']}">
                 ${time}
             </div>
         `;
@@ -64,25 +72,37 @@ export class HomePage extends Block<Props> {
     });
   }
 
+  protected init() {
+    // this.children.chatsList = new ChatsList({ isLoaded: false });
+    //
+    // this.children.messenger = new Messenger({});
+
+    ChatsController.fetchChats().finally(() => {
+      (this.children.chatsList as Block).setProps({
+        isLoaded: true,
+      });
+    });
+  }
+
   render() {
     // language=hbs
     return `
-        <div class="chat">
+        <div class="{{styles.chat}}">
             {{{Sidebar img=img modifiedChatsReply=modifiedChatsReply}}}
             {{#if getIdChat}}
-                <div class="chat-message">
-                    <div class="chat-message-header">
-                        <div class="chat-message-name">
-                            <img class="message-avatar" src={{img}} alt="avatar">
+                <div class="{{styles.chat-message}}">
+                    <div class="{{styles.chat-message-header}}">
+                        <div class="{{styles.chat-message-name}}">
+                            <img class="{{styles.message-avatar}}" src={{img}} alt="avatar">
                             <p>Вадим</p>
                         </div>
                         {{{Dropdown id="myDropdown"}}}
                     </div>
-                    <div class="chat-message-content">
-                        <div class="chat-message-content-text">
-                            <div class="date">19 июня</div>
-                            <div class="message">
-                                <div class="message-content">
+                    <div class="{{styles.chat-message-content}}">
+                        <div class="{{styles.chat-message-content-text}}" id="chat-message-content-text">
+                            <div class="{{styles.date}}">19 июня</div>
+                            <div class="{{styles.message}}">
+                                <div class="{{styles.message-content}}">
                                     <p>Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА в
                                         какой-то момент попросила
                                         Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все знаем что
@@ -96,30 +116,30 @@ export class HomePage extends Block<Props> {
                                         попали. Всего их было произведено 25 штук, одну из них недавно продали на
                                         аукционе за 45000 евро.</p>
                                 </div>
-                                <div class="message-time">
+                                <div class="{{styles.message-time}}">
                                     10:49
                                 </div>
                             </div>
-                            <div class="message your">
-                                <div class="message-content">
+                            <div class="{{styles.message}}" data-my="true">
+                                <div class="{{styles.message-content}}" data-my="true">
                                     <p>Привет, как дела?</p>
                                 </div>
-                                <div class="message-time">
+                                <div class="{{styles.message-time}}">
                                     10:49
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="chat-message-footer">
-                        {{{ Dropdown  id="myDropdownFile" message=true top="top"}}}
+                    <div class="{{styles.chat-message-footer}}">
+                        {{{ Dropdown  id="myDropdownFile" message=true}}}
                         <form id="formMessage">
-                            {{{ InputChat placeholder="Сообщение" name="message"}}}
+                            {{{ InputChat placeholder="Сообщение" name="message" iconSearch="false"}}}
                             {{{ ButtonSendMessage onClick=onclickMessage }}}
                         </form>
                     </div>
                 </div>
             {{else}}
-                <div class="message">
+                <div class="{{styles.message}}">
                     <p>Выберите чат чтобы отправить сообщение</p>
                 </div>
             {{/if}}

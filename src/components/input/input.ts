@@ -1,4 +1,5 @@
 import Block from 'src/utils/Block';
+import styles from './styles.module.css';
 
 interface Props {
   type: string;
@@ -6,17 +7,18 @@ interface Props {
   onBlur?: Record<string, (event: Event) => void>;
   onFocus?: Record<string, (event: Event) => void>;
   events: Record<string, Record<string, (event: Event) => void> | undefined>;
+  styles: typeof styles;
 }
 
 export default class Input extends Block<Props> {
   constructor({type, name, onBlur, onFocus}: Props) {
-    super({type, name, events: {blur: onBlur, focus: onFocus}});
+    super({type, name, events: {blur: onBlur, focus: onFocus}, styles});
   }
 
   render() {
     // language=hbs
     return `
-        <input class="text-field__input" type={{{type}}} name={{{name}}}>
+        <input class="{{styles.input}}" type="{{type}}" name="{{name}}">
     `;
   }
 }

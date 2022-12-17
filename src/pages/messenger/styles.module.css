@@ -2,16 +2,6 @@
   display: flex;
 }
 
-.chat-list {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 20px 10px;
-  max-width: 310px;
-  background: var(--bg-color);
-  height: 100vh;
-}
-
 .chat-message {
   flex: 1;
   flex-direction: column;
@@ -101,12 +91,12 @@
           align-self: flex-end;
         }
 
-        &.your {
+        &[data-my="true"] {
           margin-left: auto;
           align-items: flex-end;
           border-radius: 10px 10px 0;
 
-          .message-content {
+          [data-my="true"] {
             align-items: flex-end;
           }
         }
@@ -129,10 +119,6 @@
 
     .attach-file {
       margin-right: 10px;
-    }
-
-    .send-message {
-      margin-left: 10px;
     }
   }
 }
