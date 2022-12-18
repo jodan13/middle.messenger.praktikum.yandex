@@ -4,16 +4,18 @@ import { iconClip, iconDots } from 'src/components/icons/icons';
 
 interface Props {
   onClick?: (event: Event) => void;
-  events: Record<string, ((event: Event) => void) | undefined>;
-  styles: typeof styles;
-  iconClip: string;
-  iconDots: string;
-  message: string;
+  styles?: typeof styles;
+  iconClip?: string;
+  iconDots?: string;
+  message?: boolean;
+  events: {
+    click: () => void;
+  };
 }
 
 export class ButtonDropdown extends Block<Props> {
-  constructor({onClick, message}: Props) {
-    super({events: {click: onClick}, styles, iconClip, iconDots, message});
+  constructor(props: Props) {
+    super({...props, iconClip, iconDots, styles});
   }
 
   render() {

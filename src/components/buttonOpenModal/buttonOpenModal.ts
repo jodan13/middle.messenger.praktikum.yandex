@@ -1,20 +1,25 @@
 import Block from 'src/utils/Block';
 import styles from './styles.module.css';
 import { iconAdd, iconDel, iconUpload } from 'src/components/icons/icons';
+import { withStore } from 'src/hocs/withStore';
+import { User } from 'src/api/AuthAPI';
 
 interface Props {
+  user: User,
   type: string;
   openModal?: (event: Event) => void;
-  events: Record<string, ((event: Event) => void) | undefined>;
-  styles: typeof styles;
-  iconAdd: string;
-  iconDel: string;
-  iconUpload: string;
+  events: {
+    click: () => void;
+  };
+  styles?: typeof styles;
+  iconAdd?: string;
+  iconDel?: string;
+  iconUpload?: string;
 }
 
-export class ButtonOpenModal extends Block<Props> {
-  constructor({type, openModal}: Props) {
-    super({type, events: {click: openModal}, styles, iconAdd, iconDel, iconUpload});
+class ButtonOpenModalBase extends Block<Props> {
+  constructor(props: Props) {
+    super({...props, styles, iconAdd, iconDel, iconUpload});
   }
 
   render() {
@@ -55,7 +60,11 @@ export class ButtonOpenModal extends Block<Props> {
         // language=hbs
         return `
             <div class="{{styles.profile-img-circle}}" id="openModalUploadAvatar">
-                {{{iconUpload}}}
+                {{#if user.avatar}}
+                    <img src="https://ya-praktikum.tech/api/v2/resources{{user.avatar}}" alt="avatar">
+                {{else}}
+                    {{{iconUpload}}}
+                {{/if}}
                 <p>Поменять аватар</p>
             </div>`;
       case 'changeData':
@@ -72,3 +81,7 @@ export class ButtonOpenModal extends Block<Props> {
     }
   }
 }
+
+const withUser = withStore((state) => ({user: state.user || {}}));
+
+export const ButtonOpenModal = withUser(ButtonOpenModalBase);

@@ -5,7 +5,7 @@
   line-height: 13px;
   color: var(--text-color);
 
-  span[data-file] {
+  span[data-file="file"] {
     display: flex;
     max-width: 120px;
     margin: 0 50px;
@@ -17,6 +17,16 @@
     color: var(--link-color);
     cursor: pointer;
   }
+
+  span[data-file="selected"] {
+    display: flex;
+    justify-content: center;
+    min-width: 120px;
+    max-width: 280px;
+    overflow-wrap: anywhere;
+    text-align: center;
+    cursor: pointer;
+  }
 }
 
 .message {
@@ -26,7 +36,7 @@
   color: var(--error-color);
   margin-bottom: 8px;
 
-  &.visible {
+  &[data-error="true"] {
     visibility: visible;
   }
 }

@@ -3,20 +3,21 @@ import Block from 'src/utils/Block';
 import styles from './styles.module.css';
 
 interface Props {
-  onClick?: (event: Event) => void;
-  events: Record<string, ((event: Event) => void) | undefined>;
-  styles: typeof styles;
+  events: {
+    click: () => void;
+  };
+  styles?: typeof styles;
 }
 
 export class ButtonSendMessage extends Block<Props> {
-  constructor({onClick}: Props) {
-    super({events: {click: onClick}, styles});
+  constructor(props: Props) {
+    super({...props, styles});
   }
 
   render() {
     // language=hbs
     return `
-        <button class="{{styles.send-message}}">
+        <button type="button" class="{{styles.send-message}}">
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
                 <rect width="30" height="30" rx="6" fill="var(--link-color)"/>

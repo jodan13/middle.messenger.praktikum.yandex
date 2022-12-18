@@ -4,24 +4,23 @@ import 'src/components/inputChat/styles.module.css';
 import 'src/components/sidebar/styles.module.css';
 import 'src/components/dropdown/styles.module.css';
 import 'src/components/modal/styles.module.css';
-
-import registerComponent from 'src/utils/registerComponent';
 import Sidebar from 'src/components/sidebar/sidebar';
 import { Dropdown } from 'src/components/dropdown/dropdown';
 import { Modal } from 'src/components/modal/modal';
 import { ButtonSendMessage } from 'src/components/buttonSendMessage/buttonSendMessage';
-import ChatsController from '../../controllers/ChatsController';
 import styles from 'src/pages/messenger/styles.module.css';
-
-
-registerComponent('Sidebar', Sidebar);
-registerComponent('Dropdown', Dropdown);
-registerComponent('Modal', Modal);
-registerComponent('ButtonSendMessage', ButtonSendMessage);
+import ChatsController from 'src/controllers/ChatsController';
+import InputChat from 'src/components/inputChat/inputChat';
 
 export class MessengerPage extends Block {
   constructor() {
     super({styles});
+    window.addEventListener('popstate', () => {
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(String(prop)),
+      }) as URLSearchParams & { [key: string]: string };
+      this.setProps({getIdChat: !!params.id});
+    });
     this.setProps({
       getIdChat: () => {
         const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -60,30 +59,50 @@ export class MessengerPage extends Block {
   }
 
   protected init() {
-    // this.children.chatsList = new ChatsList({ isLoaded: false });
-    //
-    // this.children.messenger = new Messenger({});
-
+    this.children.sidebar = new Sidebar({isLoaded: false});
     ChatsController.fetchChats().finally(() => {
-      (this.children.chatsList as Block).setProps({
+      (this.children.sidebar as Block).setProps({
         isLoaded: true,
       });
     });
+    this.children.modal = new Modal({});
+    this.children.dropdown = new Dropdown({
+      id: 'myDropdown',
+    });
+    this.children.dropdownFile = new Dropdown({
+      id: 'myDropdownFile',
+      message: true,
+    });
+    this.children.inputChat = new InputChat({
+      placeholder: 'Сообщение',
+      name: 'message',
+      iconSearch: false,
+    });
+    this.children.buttonSendMessage = new ButtonSendMessage({
+      events: {
+        click: this.props.onclickMessage,
+      },
+    });
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(String(prop)),
+    }) as URLSearchParams & { [key: string]: string };
+    this.setProps({getIdChat: !!params.id});
+
   }
 
   render() {
     // language=hbs
     return `
         <div class="{{styles.chat}}">
-            {{{Sidebar}}}
+            {{{sidebar}}}
             {{#if getIdChat}}
                 <div class="{{styles.chat-message}}">
                     <div class="{{styles.chat-message-header}}">
                         <div class="{{styles.chat-message-name}}">
-                            <img class="{{styles.message-avatar}}" src={{img}} alt="avatar">
+                            <img class="{{styles.message-avatar}}" src="{{img}}" alt="avatar">
                             <p>Вадим</p>
                         </div>
-                        {{{Dropdown id="myDropdown"}}}
+                        {{{dropdown}}}
                     </div>
                     <div class="{{styles.chat-message-content}}">
                         <div class="{{styles.chat-message-content-text}}" id="chat-message-content-text">
@@ -118,10 +137,10 @@ export class MessengerPage extends Block {
                         </div>
                     </div>
                     <div class="{{styles.chat-message-footer}}">
-                        {{{Dropdown  id="myDropdownFile" message=true}}}
+                        {{{dropdownFile}}}
                         <form id="formMessage">
-                            {{{InputChat placeholder="Сообщение" name="message" iconSearch="false"}}}
-                            {{{ButtonSendMessage onClick=onclickMessage}}}
+                            {{{inputChat}}}
+                            {{{buttonSendMessage}}}
                         </form>
                     </div>
                 </div>
@@ -130,7 +149,7 @@ export class MessengerPage extends Block {
                     <p class="{{styles.text-message-select-chat}}">Выберите чат чтобы отправить сообщение</p>
                 </div>
             {{/if}}
-            {{{Modal}}}
+            {{{modal}}}
         </div>
     `;
   }

@@ -10,14 +10,33 @@ interface Props {
   name: string;
   placeholder: string;
   textError?: string;
-  onBlur?: Record<string, (event: Event) => void>;
-  onFocus?: Record<string, (event: Event) => void>;
+  onBlur?: ({target}: HTMLInputEvent) => void;
+  onFocus?: ({target}: HTMLInputEvent) => void;
+  onChange?: ({target}: HTMLInputEvent) => void;
   styles?: typeof styles;
+  value?: string;
+  file?: boolean;
 }
 
 export default class InputWrapper extends Block<Props> {
-  constructor({type, name, onBlur, onFocus, placeholder, textError}: Props) {
-    super({type, name, onBlur, onFocus, placeholder, textError, styles});
+  constructor(props: Props) {
+    super({...props, styles});
+    this.setProps({...props, styles, file: this.props.type === 'file'});
+  }
+
+  protected init() {
+    // Input
+    this.children.input = new Input({
+      type: this.props.type,
+      name: this.props.name,
+      value: this.props.value,
+      events: {
+        ...(this.props.onBlur ? {blur: this.props.onBlur} : {}),
+        ...(this.props.onFocus ? {focus: this.props.onFocus} : {}),
+        ...(this.props.onChange ? {change: this.props.onChange} : {}),
+      },
+    });
+
   }
 
   render() {
@@ -25,10 +44,10 @@ export default class InputWrapper extends Block<Props> {
     return `
         <div>
             <label class="{{styles.label}}">
-                <span>{{{placeholder}}}</span>
-                {{{Input type=type name=name onBlur=onBlur onFocus=onFocus}}}
+                <span {{#if file}}data-file="file"{{/if}}>{{{placeholder}}}</span>
+                {{{input}}}
             </label>
-            <div class="{{styles.message}}">{{{textError}}}</div>
+            <div class="{{styles.message}}" data-error="false">{{{textError}}}</div>
         </div>
     `;
   }

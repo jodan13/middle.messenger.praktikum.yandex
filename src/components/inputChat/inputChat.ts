@@ -5,7 +5,7 @@ interface Props {
   placeholder: string;
   iconSearch: boolean;
   name: string;
-  styles: typeof styles;
+  styles?: typeof styles;
 }
 
 export default class InputChat extends Block<Props> {

@@ -38,8 +38,8 @@ export class HTTPTransport {
   get: HTTPMethod = (url, options) => {
     return this.request(this.endpoint + url, {...options, method: METHODS.GET}, options?.timeout);
   };
-  put: HTTPMethodData = (url, options) => {
-    return this.request(this.endpoint + url, {...options, method: METHODS.PUT}, options?.timeout);
+  put: HTTPMethodData = (url, data, options) => {
+    return this.request(this.endpoint + url, {...options, method: METHODS.PUT, data}, options?.timeout);
   };
   post: HTTPMethodData = (url, data, options) => {
     return this.request(this.endpoint + url, {
@@ -48,8 +48,8 @@ export class HTTPTransport {
       data,
     }, options?.timeout) as Promise<any>;
   };
-  delete: HTTPMethodData = (url, options) => {
-    return this.request(this.endpoint + url, {...options, method: METHODS.DELETE}, options?.timeout);
+  delete: HTTPMethodData = (url, data, options) => {
+    return this.request(this.endpoint + url, {...options, method: METHODS.DELETE, data}, options?.timeout);
   };
 
   private request<Response>(url: string | URL, options: Options, timeout = 5000): Promise<Response> {
@@ -102,7 +102,11 @@ export class HTTPTransport {
       if (isGet || !data) {
         xhr.send();
       } else {
-        xhr.send(JSON.stringify(data));
+        if (!(data instanceof FormData)) {
+          xhr.send(JSON.stringify(data));
+        } else {
+          xhr.send(data);
+        }
       }
     });
   };

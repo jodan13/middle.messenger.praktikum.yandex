@@ -50,6 +50,7 @@ export class AuthController {
       console.error(e.message);
     }
   }
+
 }
 
 export default new AuthController();

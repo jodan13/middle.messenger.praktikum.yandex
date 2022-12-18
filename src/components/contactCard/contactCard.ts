@@ -2,6 +2,7 @@ import 'src/components/contactCard/styles.module.css';
 import Block from 'src/utils/Block';
 import Handlebars from 'handlebars';
 import { PropsWithRouter, withRouter } from 'src/hocs/withRouter';
+import img from 'static/img/default-user.png';
 import styles from './styles.module.css';
 
 Handlebars.registerHelper('activeContactCard', function (value: string) {
@@ -26,21 +27,22 @@ class BaseContactCard extends Block<Props> {
       ...props, styles, events: {
         click: () => this.navigate(),
       },
+      img,
     });
   }
 
   navigate() {
     [...this.element.parentElement!.children].forEach((child) => {
-      child.removeAttribute('data-active');
+      child.setAttribute('data-active', 'false');
     });
-    this.element.dataset.active = 'true';
+    this.element.setAttribute('data-active', 'true');
     this.props.router.go('messenger' + `?id=${this.props.item.id}`);
   }
 
   render() {
     // language=hbs
     return `
-        <li class="{{styles.contact-card}}">
+        <li class="{{styles.contact-card}}" data-active="{{#if (activeContactCard item.id)}}true{{else}}false{{/if}}">
             <img class="{{styles.contact-card__avatar}}" src="{{img}}" alt="avatar">
             <div class="{{styles.contact-card__name-wrapper}}">
                 <p class="{{styles.contact-card__name}}">{{item.title}}</p>

@@ -16,6 +16,7 @@ export interface SignupData {
 
 export interface User {
   id: number;
+  display_name: string;
   first_name: string;
   second_name: string;
   login: string;

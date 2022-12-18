@@ -6,13 +6,13 @@ import registerComponent from 'src/utils/registerComponent';
 import { ButtonDropdown } from 'src/components/buttonDropdown/buttonDropdown';
 import { ButtonOpenModal } from 'src/components/buttonOpenModal/buttonOpenModal';
 import { Login } from 'src/pages/login/login';
-import { SettingsPage } from 'src/pages/settings/settings';
+import { Settings } from 'src/pages/settings/settings';
 import AuthController from 'src/controllers/AuthController';
 import Router from 'src/utils/Router';
 import { SignUp } from 'src/pages/sign-up/sign-up';
 import { MessengerPage } from 'src/pages/messenger/messenger';
-import { ErrorPage } from 'src/pages/error/error';
-import { Link } from 'src/components/Link/link';
+// import { ErrorPage } from 'src/pages/error/error';
+import { Link } from 'src/components/link/link';
 
 registerComponent('ButtonDropdown', ButtonDropdown);
 registerComponent('ButtonOpenModal', ButtonOpenModal);
@@ -23,16 +23,16 @@ enum Routes {
   Signup = '/sign-up',
   Settings = '/settings',
   Messenger = '/messenger',
-  Error404 = '/error404',
+  // Error404 = '/error404',
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
   Router
     .use(Routes.Index, Login)
     .use(Routes.Signup, SignUp)
-    .use(Routes.Settings, SettingsPage)
-    .use(Routes.Messenger, MessengerPage)
-    .use(Routes.Error404, ErrorPage, {title: '404', text: 'Страница не найдена'});
+    .use(Routes.Settings, Settings)
+    .use(Routes.Messenger, MessengerPage);
+  // .use(Routes.Error404, ErrorPage, {title: '404', text: 'Страница не найдена'});
 
   let isProtectedRoute = true;
 

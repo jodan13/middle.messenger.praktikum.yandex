@@ -1,8 +1,7 @@
 import Block from './Block';
 
-interface Props {
-  title: string;
-  text: string;
+interface BlockConstructable<P = any> {
+  new(props: P): Block<P>;
 }
 
 function isEqual(lhs: string, rhs: string): boolean {
@@ -28,9 +27,8 @@ class Route {
 
   constructor(
     private pathname: string,
-    private readonly blockClass: typeof Block<Props | unknown>,
+    private readonly blockClass: BlockConstructable,
     private readonly query: string,
-    private readonly props?: Props,
   ) {
   }
 
@@ -44,7 +42,7 @@ class Route {
 
   render() {
     if (!this.block) {
-      this.block = new this.blockClass(this.props ? this.props : {});
+      this.block = new this.blockClass({});
 
       render(this.query, this.block);
       return;
@@ -68,8 +66,8 @@ class Router {
     Router.__instance = this;
   }
 
-  public use(pathname: string, block: typeof Block<Props>, props?: Props) {
-    const route = new Route(pathname, block, this.rootQuery, props);
+  public use(pathname: string, block: BlockConstructable) {
+    const route = new Route(pathname, block, this.rootQuery);
     this.routes.push(route);
 
     return this;
