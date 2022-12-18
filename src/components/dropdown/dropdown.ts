@@ -143,8 +143,9 @@ export class Dropdown extends Block<Props> {
             }
             const modalInput = modal.querySelector('input[type=text]') as HTMLInputElement;
             if (modalInput) {
-              modalInput.setAttribute('name', 'login');
+              modalInput.setAttribute('name', 'loginDel');
             }
+
           }
         },
       },
@@ -186,5 +187,4 @@ export class Dropdown extends Block<Props> {
         </div>
     `;
   }
-
 }

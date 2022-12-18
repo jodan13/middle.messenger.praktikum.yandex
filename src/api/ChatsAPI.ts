@@ -10,7 +10,7 @@ export interface ChatInfo {
     user: User,
     time: string;
     content: string;
-  }
+  };
 }
 
 export class ChatsAPI extends BaseAPI {
@@ -19,11 +19,11 @@ export class ChatsAPI extends BaseAPI {
   }
 
   create(title: string) {
-    return this.http.post('/', { title });
+    return this.http.post('/', {title});
   }
 
   delete(id: number): Promise<unknown> {
-    return this.http.delete('/', { chatId: id });
+    return this.http.delete('/', {chatId: id});
   }
 
 
@@ -32,11 +32,15 @@ export class ChatsAPI extends BaseAPI {
   }
 
   getUsers(id: number): Promise<Array<User & { role: string }>> {
-    return this.http.get(`/${id}/users`)
+    return this.http.get(`/${id}/users`);
   }
 
   addUsers(id: number, users: number[]): Promise<unknown> {
-    return this.http.put('/users', { users, chatId: id });
+    return this.http.put('/users', {users, chatId: id});
+  }
+
+  deleteUsers(id: number, users: number[]): Promise<unknown> {
+    return this.http.delete('/users', {users, chatId: id});
   }
 
   async getToken(id: number): Promise<string> {

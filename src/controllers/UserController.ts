@@ -38,6 +38,15 @@ export class UserController {
       console.error(e.message);
     }
   }
+
+  async searchUser(login: string) {
+    try {
+      const user = await this.api.search(login);
+      store.set('searchUser', user);
+    } catch (e: any) {
+      console.error(e.message);
+    }
+  }
 }
 
 export default new UserController();

@@ -11,51 +11,71 @@ import { ButtonSendMessage } from 'src/components/buttonSendMessage/buttonSendMe
 import styles from 'src/pages/messenger/styles.module.css';
 import ChatsController from 'src/controllers/ChatsController';
 import InputChat from 'src/components/inputChat/inputChat';
+import { withStore } from 'src/hocs/withStore';
+import img from 'static/img/default-user.png';
+import { ChatInfo } from 'src/api/ChatsAPI';
 
-export class MessengerPage extends Block {
-  constructor() {
-    super({styles});
-    window.addEventListener('popstate', () => {
-      const params = new Proxy(new URLSearchParams(window.location.search), {
-        get: (searchParams, prop) => searchParams.get(String(prop)),
-      }) as URLSearchParams & { [key: string]: string };
-      this.setProps({getIdChat: !!params.id});
+interface Props {
+  selectedChat: number;
+  chats: ChatInfo[];
+  isLoaded: boolean;
+  title: string;
+  avatar: string;
+  id: number;
+  messages: [];
+  isModal: boolean;
+  isDropdown: boolean;
+  isInput: boolean;
+  selectedChatItem: ChatInfo;
+}
+
+class MessengerPageBase extends Block {
+  constructor({selectedChat, chats}: Props) {
+    super({
+      styles,
+      selectedChat,
+      img,
+      chats,
+      selectedChatItem: {},
     });
-    this.setProps({
-      getIdChat: () => {
-        const params = new Proxy(new URLSearchParams(window.location.search), {
-          get: (searchParams, prop) => searchParams.get(String(prop)),
-        }) as URLSearchParams & { [key: string]: string };
-        return !!params.id;
-      },
-      onclickMessage: (event: Event) => {
-        event.preventDefault();
-        const form = document.getElementById('formMessage') as HTMLFormElement;
-        const input = form.elements.namedItem('message') as HTMLInputElement;
-        if (input.value) {
-          const message = input.value;
-          console.log(input.value);
-          input.value = '';
-          const chat = document.querySelector('#chat-message-content-text') as HTMLElement;
-          const date = new Date();
-          const time = `${date.getHours()}:${date.getMinutes()}`;
-          const div = document.createElement('div');
-          div.classList.add(styles.message);
-          div.dataset.my = 'true';
-          div.innerHTML = `
-            <div class="${styles['message-content']}" data-my="true">
-                <p>${message}</p>
-            </div>
-            <div class="${styles['message-time']}">
-                ${time}
-            </div>
-        `;
-          chat.appendChild(div);
-        } else {
-          console.log('empty');
-        }
-      },
-    });
+
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(String(prop)),
+    }) as URLSearchParams & { [key: string]: string };
+    if (params.id) {
+      ChatsController.selectChat(Number(params.id));
+
+
+    }
+    // this.setProps({
+    //   onclickMessage: (event: Event) => {
+    //     event.preventDefault();
+    //     const form = document.getElementById('formMessage') as HTMLFormElement;
+    //     const input = form.elements.namedItem('message') as HTMLInputElement;
+    //     if (input.value) {
+    //       const message = input.value;
+    //       console.log(input.value);
+    //       input.value = '';
+    //       const chat = document.querySelector('#chat-message-content-text') as HTMLElement;
+    //       const date = new Date();
+    //       const time = `${date.getHours()}:${date.getMinutes()}`;
+    //       const div = document.createElement('div');
+    //       div.classList.add(styles.message);
+    //       div.dataset.my = 'true';
+    //       div.innerHTML = `
+    //         <div class="${styles['message-content']}" data-my="true">
+    //             <p>${message}</p>
+    //         </div>
+    //         <div class="${styles['message-time']}">
+    //             ${time}
+    //         </div>
+    //     `;
+    //       chat.appendChild(div);
+    //     } else {
+    //       console.log('empty');
+    //     }
+    //   },
+    // });
   }
 
   protected init() {
@@ -64,6 +84,9 @@ export class MessengerPage extends Block {
       (this.children.sidebar as Block).setProps({
         isLoaded: true,
       });
+      if (this.props.chats) {
+        this.props.selectedChatItem = this.props.chats.find((chat: ChatInfo) => chat.id === this.props.selectedChat);
+      }
     });
     this.children.modal = new Modal({});
     this.children.dropdown = new Dropdown({
@@ -83,11 +106,15 @@ export class MessengerPage extends Block {
         click: this.props.onclickMessage,
       },
     });
-    const params = new Proxy(new URLSearchParams(window.location.search), {
-      get: (searchParams, prop) => searchParams.get(String(prop)),
-    }) as URLSearchParams & { [key: string]: string };
-    this.setProps({getIdChat: !!params.id});
+  }
 
+  protected componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+    if (oldProps.selectedChat !== newProps.selectedChat && newProps.chats && newProps.chats.length > 0) {
+      this.setProps({
+        selectedChatItem: newProps.chats.find((chat: ChatInfo) => chat.id === newProps.selectedChat),
+      });
+    }
+    return true;
   }
 
   render() {
@@ -95,12 +122,16 @@ export class MessengerPage extends Block {
     return `
         <div class="{{styles.chat}}">
             {{{sidebar}}}
-            {{#if getIdChat}}
+            {{#if selectedChat}}
                 <div class="{{styles.chat-message}}">
                     <div class="{{styles.chat-message-header}}">
                         <div class="{{styles.chat-message-name}}">
-                            <img class="{{styles.message-avatar}}" src="{{img}}" alt="avatar">
-                            <p>Вадим</p>
+                            <img
+                                    class="{{styles.message-avatar}}"
+                                    src="{{#if
+                                            selectedChatItem.avatar}}{{selectedChatItem.avatar}}{{else}}{{img}}{{/if}}"
+                                    alt="avatar">
+                            <p>{{selectedChatItem.title}}</p>
                         </div>
                         {{{dropdown}}}
                     </div>
@@ -154,3 +185,10 @@ export class MessengerPage extends Block {
     `;
   }
 }
+
+const withChat = withStore((state) => ({
+  selectedChat: state.selectedChat,
+  chats: state.chats,
+}));
+
+export const MessengerPage = withChat(MessengerPageBase);

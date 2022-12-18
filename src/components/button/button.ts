@@ -4,8 +4,6 @@ import styles from './styles.module.css';
 interface ButtonProps {
   value: string;
   type: string;
-  onClick?: Record<string, (event: Event) => void>;
-  // events: Record<string, Record<string, (event: Event) => void> | undefined>;
   styles?: typeof styles;
   events: {
     click: (event: Event) => void;

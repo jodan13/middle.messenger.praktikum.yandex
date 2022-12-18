@@ -6,14 +6,18 @@ import InputWrapper from 'src/components/inputWrapper/input';
 import Button from 'src/components/button/button';
 import UserController from 'src/controllers/UserController';
 import ChatsController from 'src/controllers/ChatsController';
+import { withStore } from 'src/hocs/withStore';
+import { UserResponse } from 'src/api/UsersAPI';
 
 interface Props {
   file?: boolean;
   styles?: typeof styles;
   title?: string;
+  searchUser?: UserResponse[];
+  selectedChat?: number;
 }
 
-export class Modal extends Block<Props> {
+class ModalBase extends Block<Props> {
   constructor(props: Props) {
     super({...props, styles});
     window.addEventListener('click', (event) => {
@@ -38,19 +42,31 @@ export class Modal extends Block<Props> {
       },
     });
     this.children.button = new Button({
-      value: 'Войти',
+      value: 'Добавить',
       type: 'submit',
       events: {
         click: (event: Event) => {
           event.preventDefault();
           const form = document.getElementById('modalForm') as HTMLFormElement;
           const login = form.elements.namedItem('login') as HTMLInputElement;
+          const loginDel = form.elements.namedItem('loginDel') as HTMLInputElement;
           const title = form.elements.namedItem('title') as HTMLInputElement;
           const chatId = form.elements.namedItem('chatId') as HTMLInputElement;
           const formData = new FormData(form);
           const data = Object.fromEntries(formData.entries());
           if (login && validation(login, regExpLogin)) {
-            console.log(data);
+            UserController.searchUser(data.login as string).finally(() => {
+              if (this.props.searchUser?.[0] && this.props.selectedChat) {
+                ChatsController.addUserToChat(this.props.selectedChat, this.props.searchUser[0].id);
+              }
+            });
+          }
+          if (loginDel && validation(loginDel, regExpLogin) && this.props.selectedChat) {
+            ChatsController.getChatUsers(this.props.selectedChat).finally(() => {
+              if (this.props.searchUser?.[0] && this.props.selectedChat) {
+                ChatsController.deleteUserFromChat(this.props.selectedChat, this.props.searchUser[0].id);
+              }
+            });
           }
           if (title && validation(title, regExpLogin)) {
             ChatsController.create(data.title as string);
@@ -127,3 +143,10 @@ export class Modal extends Block<Props> {
     `;
   };
 }
+
+const withUsers = withStore((state) => ({
+  selectedChat: state.selectedChat,
+  searchUser: state.searchUser,
+}));
+
+export const Modal = withUsers(ModalBase);

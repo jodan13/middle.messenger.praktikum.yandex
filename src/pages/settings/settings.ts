@@ -417,7 +417,7 @@ class SettingsPage extends Block<Props> {
             <div class="{{styles.profile-body}}">
                 {{{buttonOpenModal}}}
                 <div class="{{styles.profile-body-info}}">
-                    <h2>Иван</h2>
+                    <h2>{{user.first_name}}</h2>
                     <div class="{{styles.info}}">
                         <p class="{{styles.white}}">Почта</p>
                         <p class="{{styles.gray}}">{{user.email}}</p>

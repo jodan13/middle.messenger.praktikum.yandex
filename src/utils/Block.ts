@@ -222,11 +222,11 @@ export default class Block<P = any> {
         get: (target: { [x: string]: unknown; }, prop: string) => {
           const value = target[prop];
           return typeof value === 'function' ? value.bind(target) : value;
-
         },
         set: (target: { [x: string]: unknown; }, prop: string, value: unknown) => {
+          const oldTarget = {...target};
           target[prop] = value;
-          this.eventBus().emit(Block.EVENTS.FLOW_CDU, {...target}, target);
+          this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
           return true;
         },
         deleteProperty: () => {

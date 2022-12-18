@@ -4,6 +4,8 @@ import Handlebars from 'handlebars';
 import { PropsWithRouter, withRouter } from 'src/hocs/withRouter';
 import img from 'static/img/default-user.png';
 import styles from './styles.module.css';
+import ChatsController from 'src/controllers/ChatsController';
+import { ChatInfo } from 'src/api/ChatsAPI';
 
 Handlebars.registerHelper('activeContactCard', function (value: string) {
   const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -14,7 +16,7 @@ Handlebars.registerHelper('activeContactCard', function (value: string) {
 
 interface Props extends PropsWithRouter {
   img: string;
-  item: Record<string, unknown>;
+  item: ChatInfo;
   events?: {
     click: () => void;
   };
@@ -37,6 +39,7 @@ class BaseContactCard extends Block<Props> {
     });
     this.element.setAttribute('data-active', 'true');
     this.props.router.go('messenger' + `?id=${this.props.item.id}`);
+    ChatsController.selectChat(this.props.item.id);
   }
 
   render() {

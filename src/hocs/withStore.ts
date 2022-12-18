@@ -3,12 +3,14 @@ import store, { StoreEvents } from 'src/utils/Store';
 import { User } from 'src/api/AuthAPI';
 import { ChatInfo } from 'src/api/ChatsAPI';
 import { Message } from 'src/controllers/MessagesController';
+import { UserResponse } from 'src/api/UsersAPI';
 
 interface State {
   user: User;
   chats: ChatInfo[];
   messages: Record<number, Message[]>;
   selectedChat?: number;
+  searchUser?: UserResponse[];
 }
 
 export function withStore<SP>(mapStateToProps: (state: State) => SP) {

@@ -14,6 +14,17 @@ export interface ChangePasswordRequest {
   newPassword: string;
 }
 
+export interface UserResponse {
+  id: number;
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  email: string;
+  phone: string;
+  avatar: string;
+}
+
 export class UsersAPI extends BaseAPI {
   constructor() {
     super('/user');
@@ -29,6 +40,10 @@ export class UsersAPI extends BaseAPI {
 
   updateAvatar(data: FormData): Promise<User> {
     return this.http.put('/profile/avatar', data);
+  }
+
+  search(login: string): Promise<UserResponse[]> {
+    return this.http.post(`/search/`, {login});
   }
 
   create = undefined;

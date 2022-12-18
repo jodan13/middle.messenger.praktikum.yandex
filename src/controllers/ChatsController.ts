@@ -31,6 +31,15 @@ class ChatsController {
     this.api.addUsers(id, [userId]);
   }
 
+  deleteUserFromChat(id: number, userId: number) {
+    this.api.deleteUsers(id, [userId]);
+  }
+
+  async getChatUsers(id: number) {
+    const users = await this.api.getUsers(id);
+    store.set('searchUser', users);
+  }
+
   async delete(id: number) {
     await this.api.delete(id);
 
