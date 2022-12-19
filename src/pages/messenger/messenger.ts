@@ -14,71 +14,33 @@ import InputChat from 'src/components/inputChat/inputChat';
 import { withStore } from 'src/hocs/withStore';
 import img from 'static/img/default-user.png';
 import { ChatInfo } from 'src/api/ChatsAPI';
+import MessagesController, { Message as MessageInfo } from 'src/controllers/MessagesController';
+import { Message } from 'src/components/message/message';
+import { funToTime } from 'src/utils/getFormattedTime';
 
-interface Props {
+interface MessengerProps {
   selectedChat: number;
   chats: ChatInfo[];
   isLoaded: boolean;
-  title: string;
-  avatar: string;
-  id: number;
-  messages: [];
-  isModal: boolean;
-  isDropdown: boolean;
-  isInput: boolean;
+  userId: number;
+  messages: MessageInfo[];
   selectedChatItem: ChatInfo;
 }
 
 class MessengerPageBase extends Block {
-  constructor({selectedChat, chats}: Props) {
-    super({
-      styles,
-      selectedChat,
-      img,
-      chats,
-      selectedChatItem: {},
-    });
+  constructor(props: MessengerProps) {
+    super({...props, img, styles});
 
     const params = new Proxy(new URLSearchParams(window.location.search), {
       get: (searchParams, prop) => searchParams.get(String(prop)),
     }) as URLSearchParams & { [key: string]: string };
     if (params.id) {
       ChatsController.selectChat(Number(params.id));
-
-
     }
-    // this.setProps({
-    //   onclickMessage: (event: Event) => {
-    //     event.preventDefault();
-    //     const form = document.getElementById('formMessage') as HTMLFormElement;
-    //     const input = form.elements.namedItem('message') as HTMLInputElement;
-    //     if (input.value) {
-    //       const message = input.value;
-    //       console.log(input.value);
-    //       input.value = '';
-    //       const chat = document.querySelector('#chat-message-content-text') as HTMLElement;
-    //       const date = new Date();
-    //       const time = `${date.getHours()}:${date.getMinutes()}`;
-    //       const div = document.createElement('div');
-    //       div.classList.add(styles.message);
-    //       div.dataset.my = 'true';
-    //       div.innerHTML = `
-    //         <div class="${styles['message-content']}" data-my="true">
-    //             <p>${message}</p>
-    //         </div>
-    //         <div class="${styles['message-time']}">
-    //             ${time}
-    //         </div>
-    //     `;
-    //       chat.appendChild(div);
-    //     } else {
-    //       console.log('empty');
-    //     }
-    //   },
-    // });
   }
 
   protected init() {
+    this.children.messages = this.createMessages(this.props);
     this.children.sidebar = new Sidebar({isLoaded: false});
     ChatsController.fetchChats().finally(() => {
       (this.children.sidebar as Block).setProps({
@@ -103,18 +65,38 @@ class MessengerPageBase extends Block {
     });
     this.children.buttonSendMessage = new ButtonSendMessage({
       events: {
-        click: this.props.onclickMessage,
+        click: (event: Event) => {
+          event.preventDefault();
+          const formMessage = document.getElementById('formMessage') as HTMLFormElement;
+          const inputMessage = formMessage.elements.namedItem('message') as HTMLInputElement;
+          const formData = new FormData(formMessage);
+          const message = formData.get('message') as string;
+          const input = this.children.inputChat as InputChat;
+          // const message = input.getValue();
+          console.log('message', message);
+          input.setValue('');
+          inputMessage.value = '';
+          MessagesController.sendMessage(this.props.selectedChat!, message);
+        },
       },
     });
   }
 
-  protected componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+  protected componentDidUpdate(oldProps: MessengerProps, newProps: MessengerProps): boolean {
+    this.children.messages = this.createMessages(newProps);
+    console.log('update', this.props.messages);
     if (oldProps.selectedChat !== newProps.selectedChat && newProps.chats && newProps.chats.length > 0) {
       this.setProps({
         selectedChatItem: newProps.chats.find((chat: ChatInfo) => chat.id === newProps.selectedChat),
       });
     }
     return true;
+  }
+
+  private createMessages(props: MessengerProps) {
+    return props.messages.filter(item => item.type === 'message').map(data => {
+      return new Message({...data, time: funToTime(data.time), isMine: props.userId === data.user_id});
+    });
   }
 
   render() {
@@ -138,33 +120,9 @@ class MessengerPageBase extends Block {
                     <div class="{{styles.chat-message-content}}">
                         <div class="{{styles.chat-message-content-text}}" id="chat-message-content-text">
                             <div class="{{styles.date}}">19 июня</div>
-                            <div class="{{styles.message}}">
-                                <div class="{{styles.message-content}}">
-                                    <p>Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА в
-                                        какой-то момент попросила
-                                        Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все знаем что
-                                        астронавты летали с
-                                        моделью 500 EL — и к слову говоря, все тушки этих камер все еще находятся на
-                                        поверхности Луны, так как
-                                        астронавты с собой забрали только кассеты с пленкой.
-
-                                        Хассельблад в итоге адаптировал SWC для космоса, но что-то пошло не так и на
-                                        ракету они так никогда и не
-                                        попали. Всего их было произведено 25 штук, одну из них недавно продали на
-                                        аукционе за 45000 евро.</p>
-                                </div>
-                                <div class="{{styles.message-time}}">
-                                    10:49
-                                </div>
-                            </div>
-                            <div class="{{styles.message}}" data-my="true">
-                                <div class="{{styles.message-content}}" data-my="true">
-                                    <p>Привет, как дела?</p>
-                                </div>
-                                <div class="{{styles.message-time}}">
-                                    10:49
-                                </div>
-                            </div>
+                            {{#each messages}}
+                                {{{this}}}
+                            {{/each}}
                         </div>
                     </div>
                     <div class="{{styles.chat-message-footer}}">
@@ -186,9 +144,22 @@ class MessengerPageBase extends Block {
   }
 }
 
-const withChat = withStore((state) => ({
-  selectedChat: state.selectedChat,
-  chats: state.chats,
-}));
+const withChat = withStore((state) => {
+  const selectedChatId = state.selectedChat;
+  if (!selectedChatId) {
+    return {
+      messages: [],
+      selectedChat: undefined,
+      userId: state.user.id,
+    };
+  }
+  console.log('withChat', state);
+  return {
+    chats: state.chats,
+    messages: (state.messages || {})[selectedChatId] || [],
+    selectedChat: state.selectedChat,
+    userId: state.user.id,
+  };
+});
 
 export const MessengerPage = withChat(MessengerPageBase);

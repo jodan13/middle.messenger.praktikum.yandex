@@ -48,7 +48,7 @@ class SidebarBase extends Block<Props> {
 
   private createContactCards(props: Props) {
     if (props.chats) {
-      return props.chats.map((data: { id: number; }) => {
+      return getFormattedTime(props.chats).map((data: ChatInfo) => {
         return new ContactCard({
           item: data,
           events: {

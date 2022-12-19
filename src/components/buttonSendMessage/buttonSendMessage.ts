@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 
 interface Props {
   events: {
-    click: () => void;
+    click: (event: Event) => void;
   };
   styles?: typeof styles;
 }

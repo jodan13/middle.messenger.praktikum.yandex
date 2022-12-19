@@ -13,8 +13,8 @@ interface Props {
   file?: boolean;
   styles?: typeof styles;
   title?: string;
-  searchUser?: UserResponse[];
-  selectedChat?: number;
+  searchUser: UserResponse[];
+  selectedChat: number;
 }
 
 class ModalBase extends Block<Props> {
@@ -145,8 +145,8 @@ class ModalBase extends Block<Props> {
 }
 
 const withUsers = withStore((state) => ({
-  selectedChat: state.selectedChat,
-  searchUser: state.searchUser,
+  selectedChat: state.selectedChat || [],
+  searchUser: state.searchUser || [],
 }));
 
 export const Modal = withUsers(ModalBase);

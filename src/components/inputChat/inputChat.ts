@@ -9,8 +9,16 @@ interface Props {
 }
 
 export default class InputChat extends Block<Props> {
-  constructor({placeholder, iconSearch, name}: Props) {
-    super({placeholder, iconSearch, name, styles});
+  constructor(props: Props) {
+    super({...props, styles});
+  }
+
+  public setValue(value: string) {
+    return (this.element as HTMLInputElement).value = value;
+  }
+
+  public getValue() {
+    return (this.element as HTMLInputElement).value;
   }
 
   render() {
