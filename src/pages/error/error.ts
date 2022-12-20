@@ -1,16 +1,18 @@
 import Block from 'src/utils/Block';
 
 import styles from './styles.module.css';
+import { Link } from 'src/components/link/link';
 
-interface Props {
-  title: string;
-  text: string;
-  styles?: typeof styles;
-}
+export class ErrorPage extends Block {
+  constructor() {
+    super({title: '404', text: 'Страница не найдена', styles});
+  }
 
-export class ErrorPage extends Block<Props> {
-  constructor({title, text}: Props) {
-    super({title, text, styles});
+  init() {
+    this.children.link = new Link({
+      label: 'Назад к чатам',
+      to: '/messenger',
+    });
   }
 
   render() {
@@ -19,7 +21,7 @@ export class ErrorPage extends Block<Props> {
         <div class="{{styles.error-wrapper}}">
             <h1>{{title}}</h1>
             <p>{{text}}</p>
-            {{{Link label='Назад к чатам' to='/messenger'}}}
+            {{{link}}}
         </div>
     `;
   }

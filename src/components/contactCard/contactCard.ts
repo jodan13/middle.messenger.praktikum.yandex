@@ -38,7 +38,7 @@ class BaseContactCard extends Block<Props> {
       child.setAttribute('data-active', 'false');
     });
     this.element.setAttribute('data-active', 'true');
-    this.props.router.go('messenger' + `?id=${this.props.item.id}`);
+    this.props.router.go('/messenger' + `?id=${this.props.item.id}`);
     ChatsController.selectChat(this.props.item.id);
   }
 

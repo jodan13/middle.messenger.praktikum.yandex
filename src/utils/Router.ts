@@ -84,10 +84,11 @@ class Router {
   }
 
   private _onRoute(pathname: string) {
-    const route = this.getRoute(pathname);
+    const route = this.getRoute(pathname.split('?')[0]);
 
     if (!route) {
-
+      const routeError = this.getRoute('/error');
+      routeError!.render();
       return;
     }
 

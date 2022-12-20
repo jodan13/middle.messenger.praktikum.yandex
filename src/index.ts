@@ -11,7 +11,7 @@ import AuthController from 'src/controllers/AuthController';
 import Router from 'src/utils/Router';
 import { SignUp } from 'src/pages/sign-up/sign-up';
 import { MessengerPage } from 'src/pages/messenger/messenger';
-// import { ErrorPage } from 'src/pages/error/error';
+import { ErrorPage } from 'src/pages/error/error';
 import { Link } from 'src/components/link/link';
 
 registerComponent('ButtonDropdown', ButtonDropdown);
@@ -23,7 +23,7 @@ enum Routes {
   Signup = '/sign-up',
   Settings = '/settings',
   Messenger = '/messenger',
-  // Error404 = '/error404',
+  Error404 = '/error',
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -31,8 +31,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     .use(Routes.Index, Login)
     .use(Routes.Signup, SignUp)
     .use(Routes.Settings, Settings)
-    .use(Routes.Messenger, MessengerPage);
-  // .use(Routes.Error404, ErrorPage, {title: '404', text: 'Страница не найдена'});
+    .use(Routes.Messenger, MessengerPage)
+    .use(Routes.Error404, ErrorPage);
 
   let isProtectedRoute = true;
 
