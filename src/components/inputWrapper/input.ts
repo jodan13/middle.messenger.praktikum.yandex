@@ -35,8 +35,22 @@ export default class InputWrapper extends Block<Props> {
         ...(this.props.onFocus ? {focus: this.props.onFocus} : {}),
         ...(this.props.onChange ? {change: this.props.onChange} : {}),
       },
-    });
 
+    });
+  }
+
+  protected componentDidUpdate(_oldProps: Props, _newProps: Props): boolean {
+    (this.children.input as Input).setProps({
+      type: this.props.type,
+      name: this.props.name,
+      value: this.props.value,
+      events: {
+        ...(this.props.onBlur ? {blur: this.props.onBlur} : {}),
+        ...(this.props.onFocus ? {focus: this.props.onFocus} : {}),
+        ...(this.props.onChange ? {change: this.props.onChange} : {}),
+      },
+    });
+    return true;
   }
 
   render() {

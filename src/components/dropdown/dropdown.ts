@@ -3,7 +3,7 @@ import styles from './styles.module.css';
 import { iconClip, iconDots, iconFile, iconLocation, iconPhoto } from 'src/components/icons/icons';
 import { ButtonDropdown } from 'src/components/buttonDropdown/buttonDropdown';
 import { ButtonOpenModal } from 'src/components/buttonOpenModal/buttonOpenModal';
-
+import ChatsController from 'src/controllers/ChatsController';
 
 interface Props {
   id: string;
@@ -50,26 +50,7 @@ export class Dropdown extends Block<Props> {
       openModal: this.props.openModalAddUser,
       events: {
         click: () => {
-          const modal = document.getElementById('myModal');
-          if (modal) {
-            modal.style.display = 'flex';
-            const modalH3 = modal.querySelector('h3');
-            if (modalH3) {
-              modalH3.textContent = 'Добавить Чат';
-            }
-            const label = modal.querySelector('label span');
-            if (label) {
-              label.textContent = 'Введите название чата';
-            }
-            const modalForm = modal.querySelector('input[type=submit]') as HTMLInputElement;
-            if (modalForm) {
-              modalForm.value = 'Добавить';
-            }
-            const modalInput = modal.querySelector('input[type=text]') as HTMLInputElement;
-            if (modalInput) {
-              modalInput.setAttribute('name', 'title');
-            }
-          }
+          ChatsController.openModal('openModalAddChat');
         },
       },
     });
@@ -78,26 +59,7 @@ export class Dropdown extends Block<Props> {
       openModal: this.props.openModalDelUser,
       events: {
         click: () => {
-          const modal = document.getElementById('myModal');
-          if (modal) {
-            modal.style.display = 'flex';
-            const modalH3 = modal.querySelector('h3');
-            if (modalH3) {
-              modalH3.textContent = 'Удалить Чат';
-            }
-            const label = modal.querySelector('label span');
-            if (label) {
-              label.textContent = 'Введите id чата';
-            }
-            const modalForm = modal.querySelector('input[type=submit]') as HTMLInputElement;
-            if (modalForm) {
-              modalForm.value = 'Удалить';
-            }
-            const modalInput = modal.querySelector('input[type=text]') as HTMLInputElement;
-            if (modalInput) {
-              modalInput.setAttribute('name', 'chatId');
-            }
-          }
+          ChatsController.openModal('openModalDelChat');
         },
       },
     });
@@ -106,22 +68,7 @@ export class Dropdown extends Block<Props> {
       openModal: this.props.openModalAddUser,
       events: {
         click: () => {
-          const modal = document.getElementById('myModal');
-          if (modal) {
-            modal.style.display = 'flex';
-            const modalH3 = modal.querySelector('h3');
-            if (modalH3) {
-              modalH3.textContent = 'Добавить пользователя';
-            }
-            const modalForm = modal.querySelector('input[type=submit]') as HTMLInputElement;
-            if (modalForm) {
-              modalForm.value = 'Добавить';
-            }
-            const modalInput = modal.querySelector('input[type=text]') as HTMLInputElement;
-            if (modalInput) {
-              modalInput.setAttribute('name', 'login');
-            }
-          }
+          ChatsController.openModal('openModalAddUser');
         },
       },
     });
@@ -130,23 +77,7 @@ export class Dropdown extends Block<Props> {
       openModal: this.props.openModalDelUser,
       events: {
         click: () => {
-          const modal = document.getElementById('myModal');
-          if (modal) {
-            modal.style.display = 'flex';
-            const modalH3 = modal.querySelector('h3');
-            if (modalH3) {
-              modalH3.textContent = 'Удалить пользователя';
-            }
-            const modalForm = modal.querySelector('input[type=submit]') as HTMLInputElement;
-            if (modalForm) {
-              modalForm.value = 'Удалить';
-            }
-            const modalInput = modal.querySelector('input[type=text]') as HTMLInputElement;
-            if (modalInput) {
-              modalInput.setAttribute('name', 'loginDel');
-            }
-
-          }
+          ChatsController.openModal('openModalDelUser');
         },
       },
     });

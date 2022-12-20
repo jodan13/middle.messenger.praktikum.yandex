@@ -48,7 +48,7 @@ class BaseContactCard extends Block<Props> {
         <li class="{{styles.contact-card}}" data-active="{{#if (activeContactCard item.id)}}true{{else}}false{{/if}}">
             <img class="{{styles.contact-card__avatar}}" src="{{img}}" alt="avatar">
             <div class="{{styles.contact-card__name-wrapper}}">
-                <p class="{{styles.contact-card__name}}">{{item.title}}</p>
+                <p class="{{styles.contact-card__name}}">{{item.title}} (id: {{item.id}})</p>
             </div>
             <p class="{{styles.contact-card__last-message}}">{{item.last_message.content}}</p>
             <span class="{{styles.contact-card__updated}}">{{item.last_message.time}}</span>

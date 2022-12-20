@@ -13,3 +13,7 @@ declare type Nullable<T> = T | null;
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
 }
+
+type HTMLElementEvent<T extends HTMLElement> = Event & {
+  target: T;
+}

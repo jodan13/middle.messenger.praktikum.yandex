@@ -11,6 +11,7 @@ interface State {
   messages: Record<number, Message[]>;
   selectedChat?: number;
   searchUser?: UserResponse[];
+  modal?: string;
 }
 
 export function withStore<SP>(mapStateToProps: (state: State) => SP) {

@@ -13,6 +13,7 @@ import { regExpEmail, regExpLogin, regExpName, regExpPassword, regExpPhone } fro
 import Button from 'src/components/button/button';
 import { ChangePasswordRequest, UserUpdateRequest } from 'src/api/UsersAPI';
 import UserController from 'src/controllers/UserController';
+import ChatsController from 'src/controllers/ChatsController';
 
 type Props = {
   user: User,
@@ -135,10 +136,11 @@ class SettingsPage extends Block<Props> {
       type: 'openModalUploadAvatar',
       events: {
         click: () => {
-          const modal = document.getElementById('myModal');
-          if (modal) {
-            modal.style.display = 'flex';
-          }
+          // const modal = document.getElementById('myModal');
+          // if (modal) {
+          //   modal.style.display = 'flex';
+          // }
+          ChatsController.openModal('openModalUploadAvatar');
         },
       },
     });
@@ -418,6 +420,10 @@ class SettingsPage extends Block<Props> {
                 {{{buttonOpenModal}}}
                 <div class="{{styles.profile-body-info}}">
                     <h2>{{user.first_name}}</h2>
+                    <div class="{{styles.info}}">
+                        <p class="{{styles.white}}">ID</p>
+                        <p class="{{styles.gray}}">{{user.id}}</p>
+                    </div>
                     <div class="{{styles.info}}">
                         <p class="{{styles.white}}">Почта</p>
                         <p class="{{styles.gray}}">{{user.email}}</p>

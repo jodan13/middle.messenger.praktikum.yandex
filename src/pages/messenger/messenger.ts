@@ -7,16 +7,15 @@ import 'src/components/modal/styles.module.css';
 import Sidebar from 'src/components/sidebar/sidebar';
 import { Dropdown } from 'src/components/dropdown/dropdown';
 import { Modal } from 'src/components/modal/modal';
-import { ButtonSendMessage } from 'src/components/buttonSendMessage/buttonSendMessage';
 import styles from 'src/pages/messenger/styles.module.css';
 import ChatsController from 'src/controllers/ChatsController';
-import InputChat from 'src/components/inputChat/inputChat';
 import { withStore } from 'src/hocs/withStore';
 import img from 'static/img/default-user.png';
 import { ChatInfo } from 'src/api/ChatsAPI';
 import MessagesController, { Message as MessageInfo } from 'src/controllers/MessagesController';
 import { Message } from 'src/components/message/message';
 import { funToTime } from 'src/utils/getFormattedTime';
+import { FormMessage } from 'src/components/formMessage/formMessage';
 
 interface MessengerProps {
   selectedChat: number;
@@ -40,6 +39,18 @@ class MessengerPageBase extends Block {
   }
 
   protected init() {
+    this.children.formMessage = new FormMessage({
+      events: {
+        submit: (event: HTMLElementEvent<HTMLFormElement>) => {
+          event.preventDefault();
+          const {target} = event;
+          const data = new FormData(target);
+          const message = data.get('message') as string;
+          MessagesController.sendMessage(this.props.selectedChat!, message);
+          target.reset();
+        },
+      },
+    });
     this.children.messages = this.createMessages(this.props);
     this.children.sidebar = new Sidebar({isLoaded: false});
     ChatsController.fetchChats().finally(() => {
@@ -58,43 +69,23 @@ class MessengerPageBase extends Block {
       id: 'myDropdownFile',
       message: true,
     });
-    this.children.inputChat = new InputChat({
-      placeholder: 'Сообщение',
-      name: 'message',
-      iconSearch: false,
-    });
-    this.children.buttonSendMessage = new ButtonSendMessage({
-      events: {
-        click: (event: Event) => {
-          event.preventDefault();
-          const formMessage = document.getElementById('formMessage') as HTMLFormElement;
-          const inputMessage = formMessage.elements.namedItem('message') as HTMLInputElement;
-          const formData = new FormData(formMessage);
-          const message = formData.get('message') as string;
-          const input = this.children.inputChat as InputChat;
-          // const message = input.getValue();
-          console.log('message', message);
-          input.setValue('');
-          inputMessage.value = '';
-          MessagesController.sendMessage(this.props.selectedChat!, message);
-        },
-      },
-    });
   }
 
   protected componentDidUpdate(oldProps: MessengerProps, newProps: MessengerProps): boolean {
     this.children.messages = this.createMessages(newProps);
-    console.log('update', this.props.messages);
     if (oldProps.selectedChat !== newProps.selectedChat && newProps.chats && newProps.chats.length > 0) {
       this.setProps({
         selectedChatItem: newProps.chats.find((chat: ChatInfo) => chat.id === newProps.selectedChat),
       });
     }
+
     return true;
   }
 
   private createMessages(props: MessengerProps) {
+
     return props.messages.filter(item => item.type === 'message').map(data => {
+
       return new Message({...data, time: funToTime(data.time), isMine: props.userId === data.user_id});
     });
   }
@@ -127,10 +118,7 @@ class MessengerPageBase extends Block {
                     </div>
                     <div class="{{styles.chat-message-footer}}">
                         {{{dropdownFile}}}
-                        <form id="formMessage">
-                            {{{inputChat}}}
-                            {{{buttonSendMessage}}}
-                        </form>
+                        {{{formMessage}}}
                     </div>
                 </div>
             {{else}}
@@ -147,13 +135,14 @@ class MessengerPageBase extends Block {
 const withChat = withStore((state) => {
   const selectedChatId = state.selectedChat;
   if (!selectedChatId) {
+
     return {
       messages: [],
       selectedChat: undefined,
       userId: state.user.id,
     };
   }
-  console.log('withChat', state);
+
   return {
     chats: state.chats,
     messages: (state.messages || {})[selectedChatId] || [],

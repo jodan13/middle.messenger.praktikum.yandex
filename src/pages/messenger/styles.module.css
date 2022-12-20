@@ -112,11 +112,6 @@
     background: var(--bg-message);
     padding: 10px 20px;
 
-    form {
-      display: flex;
-      width: 100%;
-    }
-
     .attach-file {
       margin-right: 10px;
     }

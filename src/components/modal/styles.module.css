@@ -1,5 +1,4 @@
 .modal {
-  display: none; /* Скрыто по умолчанию */
   position: fixed; /* Оставаться на месте */
   z-index: 1; /* Сидеть на вершине */
   padding-top: 100px; /* Расположение коробки */
@@ -17,6 +16,7 @@
   padding: 20px;
   border-radius: 12px;
   max-width: 340px;
+  min-width: 280px;
   box-shadow: var(--box-shadow);
 
   h3 {

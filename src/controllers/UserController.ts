@@ -1,5 +1,6 @@
 import API, { ChangePasswordRequest, UsersAPI, UserUpdateRequest } from 'src/api/UsersAPI';
 import store from '../utils/Store';
+import ChatsController from 'src/controllers/ChatsController';
 
 export class UserController {
   private readonly api: UsersAPI;
@@ -30,7 +31,7 @@ export class UserController {
     try {
       const user = await this.api.updateAvatar(data);
       store.set('user', user);
-      modal.style.display = 'none';
+      ChatsController.openModal('');
     } catch (e: any) {
       const titleModal = modal.querySelector('h3');
       titleModal?.setAttribute('style', 'color: #FF2F2F');

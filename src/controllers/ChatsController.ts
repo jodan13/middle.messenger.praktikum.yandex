@@ -53,6 +53,10 @@ class ChatsController {
   selectChat(id: number) {
     store.set('selectedChat', id);
   }
+
+  openModal(modal: string) {
+    store.set('modal', modal);
+  }
 }
 
 const controller = new ChatsController();

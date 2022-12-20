@@ -1,143 +1,74 @@
 import Block from 'src/utils/Block';
-import { validation } from 'src/utils/validation';
-import { regExpLogin } from 'src/utils/const';
 import styles from './styles.module.css';
-import InputWrapper from 'src/components/inputWrapper/input';
-import Button from 'src/components/button/button';
-import UserController from 'src/controllers/UserController';
 import ChatsController from 'src/controllers/ChatsController';
 import { withStore } from 'src/hocs/withStore';
-import { UserResponse } from 'src/api/UsersAPI';
+import { ModalForm } from 'src/components/modalForm/modalForm';
 
 interface Props {
   file?: boolean;
   styles?: typeof styles;
   title?: string;
-  searchUser: UserResponse[];
-  selectedChat: number;
+  modal: string;
+  display?: string;
+  events?: {
+    click: (event: Event) => void;
+  };
 }
 
 class ModalBase extends Block<Props> {
   constructor(props: Props) {
     super({...props, styles});
-    window.addEventListener('click', (event) => {
-      if (this.element && event.target === this.element) {
-        this.element.style.display = 'none';
-      }
+    this.setProps({
+      events: {
+        click: (event: Event) => {
+          if (this.element && event.target === this.element) {
+            ChatsController.openModal('');
+            this.props.display = 'none';
+          }
+        },
+      },
     });
   }
 
   protected init() {
-    this.children.inputWrapper = new InputWrapper({
-      type: 'text',
-      name: 'login',
-      placeholder: 'Логин',
-      textError: 'от 3 до 20 символов, латиница, цифры',
-      onBlur: ({target}: HTMLInputEvent) => {
-        validation(target, regExpLogin);
-      },
-      onFocus: ({target}: HTMLInputEvent) => {
-        const error = target!.parentElement!.nextElementSibling;
-        error!.setAttribute('data-error', 'false');
-      },
-    });
-    this.children.button = new Button({
-      value: 'Добавить',
-      type: 'submit',
-      events: {
-        click: (event: Event) => {
-          event.preventDefault();
-          const form = document.getElementById('modalForm') as HTMLFormElement;
-          const login = form.elements.namedItem('login') as HTMLInputElement;
-          const loginDel = form.elements.namedItem('loginDel') as HTMLInputElement;
-          const title = form.elements.namedItem('title') as HTMLInputElement;
-          const chatId = form.elements.namedItem('chatId') as HTMLInputElement;
-          const formData = new FormData(form);
-          const data = Object.fromEntries(formData.entries());
-          if (login && validation(login, regExpLogin)) {
-            UserController.searchUser(data.login as string).finally(() => {
-              if (this.props.searchUser?.[0] && this.props.selectedChat) {
-                ChatsController.addUserToChat(this.props.selectedChat, this.props.searchUser[0].id);
-              }
-            });
-          }
-          if (loginDel && validation(loginDel, regExpLogin) && this.props.selectedChat) {
-            ChatsController.getChatUsers(this.props.selectedChat).finally(() => {
-              if (this.props.searchUser?.[0] && this.props.selectedChat) {
-                ChatsController.deleteUserFromChat(this.props.selectedChat, this.props.searchUser[0].id);
-              }
-            });
-          }
-          if (title && validation(title, regExpLogin)) {
-            ChatsController.create(data.title as string);
-            this.element!.style.display = 'none';
-            title.value = '';
-          }
-          if (chatId) {
-            ChatsController.delete(Number(data.chatId));
-            this.element!.style.display = 'none';
-            login.value = '';
-          }
-        },
-      },
-    });
-    this.children.inputWrapperFile = new InputWrapper({
-      type: 'file',
-      name: 'avatar',
-      placeholder: 'Выбрать файл на компьютере',
-      textError: 'Нужно выбрать файл',
-      onChange: ({target}: HTMLInputEvent) => {
-        const span = target!.parentElement!.firstElementChild;
-        span!.setAttribute('data-file', 'selected');
-        span!.textContent = target!.files![0].name;
-      },
-    });
-    this.children.buttonFile = new Button({
-      value: 'Поменять',
-      type: 'submit',
-      events: {
-        click: (event: Event) => {
-          event.preventDefault();
-          const form = document.getElementById('modalForm') as HTMLFormElement;
-          const file = form.elements.namedItem('avatar') as HTMLInputElement;
-          if (file!.files!.length === 0) {
-            const error = file!.parentElement!.nextElementSibling;
-            error!.setAttribute('data-error', 'true');
-          } else {
-            const formData = new FormData(form);
-            UserController.putUserAvatar(formData);
-          }
-        },
-      },
-    });
+    this.setProps({display: 'none'});
+    this.children.modalForm = new ModalForm({});
+  }
 
+  protected componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+
+    if (newProps.modal && !oldProps.modal) {
+      this.props.display = 'flex';
+    } else if (!newProps.modal && oldProps.modal) {
+      this.props.display = 'none';
+    }
+    if (newProps.modal === 'openModalAddChat' && oldProps.modal !== 'openModalAddChat') {
+      this.props.title = 'Добавить Чат';
+    }
+    if (newProps.modal === 'openModalDelChat' && oldProps.modal !== 'openModalDelChat') {
+      this.props.title = 'Удалить чат';
+    }
+    if (newProps.modal === 'openModalAddUser' && oldProps.modal !== 'openModalAddUser') {
+      this.props.title = 'Добавить пользователя';
+    }
+    if (newProps.modal === 'openModalDelUser' && oldProps.modal !== 'openModalDelUser') {
+      this.props.title = 'Удалить пользователя';
+    }
+    if (newProps.modal === 'openModalUploadAvatar' && oldProps.modal !== 'openModalUploadAvatar') {
+      this.props.title = 'Загрузить файл';
+    }
+
+    return true;
   }
 
   render() {
-    if (this.props.file) {
-      // language=hbs
-      return `
-          <div id="myModal" class="{{styles.modal}}">
-              <div class="{{styles.modal-content}}">
-                  <h3>Загрузить файл</h3>
-                  <form id="modalForm">
-                      {{{inputWrapperFile}}}
-                      {{{buttonFile}}}
-                  </form>
-              </div>
-          </div>
-      `;
-    }
-
     // language=hbs
     return `
-        <div id="myModal" class="{{styles.modal}}">
+        <div class="{{styles.modal}}" style="display: {{display}}">
             <div class="{{styles.modal-content}}">
-                <h3>Добавить пользователя</h3>
-                <form id="modalForm">
-                    {{{inputWrapper}}}
-                    {{{button}}}
-                </form>
+                <h3>{{title}}</h3>
+                {{{modalForm}}}
+
             </div>
         </div>
     `;
@@ -145,8 +76,7 @@ class ModalBase extends Block<Props> {
 }
 
 const withUsers = withStore((state) => ({
-  selectedChat: state.selectedChat || [],
-  searchUser: state.searchUser || [],
+  modal: state.modal || '',
 }));
 
 export const Modal = withUsers(ModalBase);

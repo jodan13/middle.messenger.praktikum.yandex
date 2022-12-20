@@ -3,7 +3,7 @@ import Block from 'src/utils/Block';
 import styles from './styles.module.css';
 
 interface Props {
-  events: {
+  events?: {
     click: (event: Event) => void;
   };
   styles?: typeof styles;
@@ -17,7 +17,7 @@ export class ButtonSendMessage extends Block<Props> {
   render() {
     // language=hbs
     return `
-        <button type="button" class="{{styles.send-message}}">
+        <button type="submit" class="{{styles.send-message}}">
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
                 <rect width="30" height="30" rx="6" fill="var(--link-color)"/>
