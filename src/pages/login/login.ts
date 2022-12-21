@@ -1,4 +1,4 @@
-import registerComponent from 'src/utils/registerComponent';
+// import registerComponent from 'src/utils/registerComponent';
 import Button from 'src/components/button/button';
 import InputWrapper from 'src/components/inputWrapper/input';
 import { regExpLogin, regExpPassword } from 'src/utils/const';
@@ -9,8 +9,8 @@ import { SignupData } from 'src/api/AuthAPI';
 import styles from './styles.module.css';
 import { Link } from 'src/components/link/link';
 
-registerComponent('Button', Button);
-registerComponent('InputWrapper', InputWrapper);
+// registerComponent('Button', Button);
+// registerComponent('InputWrapper', InputWrapper);
 
 
 export class Login extends Block {

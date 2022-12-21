@@ -60,10 +60,10 @@ class ModalFormBase extends Block<Props> {
           if (chatId) {
             ChatsController.delete(Number(data.chatId));
             ChatsController.openModal('');
-            login.value = '';
+            chatId.value = '';
           }
           const file = form.elements.namedItem('avatar') as HTMLInputElement;
-          if (file!.files!.length === 0) {
+          if (file && file!.files!.length === 0) {
             const error = file!.parentElement!.nextElementSibling;
             error!.setAttribute('data-error', 'true');
           } else {

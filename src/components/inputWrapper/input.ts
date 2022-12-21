@@ -1,9 +1,9 @@
 import Block from 'src/utils/Block';
-import registerComponent from 'src/utils/registerComponent';
+// import registerComponent from 'src/utils/registerComponent';
 import Input from 'src/components/input/input';
 import styles from './styles.module.css';
 
-registerComponent('Input', Input);
+// registerComponent('Input', Input);
 
 interface Props {
   type: string;

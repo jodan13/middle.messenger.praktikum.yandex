@@ -143,28 +143,6 @@ export default class Block<P = any> {
     this._addEvents();
   }
 
-  // protected compile(template: string, context: Record<string, unknown>) {
-  //   const contextAndStubs = {...context};
-  //   const compiled = Handlebars.compile(template);
-  //
-  //   const temp = document.createElement('template');
-  //   temp.innerHTML = compiled(contextAndStubs);
-  //   Object.entries(this.children).forEach(([_, component]) => {
-  //     const stub = temp.content.querySelector(`[data-id="${component.id}"]`);
-  //
-  //     if (!stub) {
-  //       return;
-  //     }
-  //
-  //     stub.replaceWith(component.getContent()!);
-  //
-  //     component.getContent()?.append(...Array.from(stub.childNodes));
-  //
-  //   });
-  //   return temp.content;
-  //
-  // };
-
   protected compile(template: string, context: any) {
     const contextAndStubs = {...context};
     const compiled = Handlebars.compile(template);
@@ -203,11 +181,6 @@ export default class Block<P = any> {
 
     return temp.content;
   }
-
-
-  // protected render(): DocumentFragment {
-  //   return new DocumentFragment();
-  // }
 
   protected render(): string {
     return '';

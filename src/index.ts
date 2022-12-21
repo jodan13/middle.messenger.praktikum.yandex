@@ -2,9 +2,9 @@ import './normalize.css';
 import './styles.css';
 import 'src/components/inputWrapper/styles.module.css';
 // import 'src/components/button/styles.module.css';
-import registerComponent from 'src/utils/registerComponent';
-import { ButtonDropdown } from 'src/components/buttonDropdown/buttonDropdown';
-import { ButtonOpenModal } from 'src/components/buttonOpenModal/buttonOpenModal';
+// import registerComponent from 'src/utils/registerComponent';
+// import { ButtonDropdown } from 'src/components/buttonDropdown/buttonDropdown';
+// import { ButtonOpenModal } from 'src/components/buttonOpenModal/buttonOpenModal';
 import { Login } from 'src/pages/login/login';
 import { Settings } from 'src/pages/settings/settings';
 import AuthController from 'src/controllers/AuthController';
@@ -12,11 +12,11 @@ import Router from 'src/utils/Router';
 import { SignUp } from 'src/pages/sign-up/sign-up';
 import { MessengerPage } from 'src/pages/messenger/messenger';
 import { ErrorPage } from 'src/pages/error/error';
-import { Link } from 'src/components/link/link';
+// import { Link } from 'src/components/link/link';
 
-registerComponent('ButtonDropdown', ButtonDropdown);
-registerComponent('ButtonOpenModal', ButtonOpenModal);
-registerComponent('Link', Link);
+// registerComponent('ButtonDropdown', ButtonDropdown);
+// registerComponent('ButtonOpenModal', ButtonOpenModal);
+// registerComponent('Link', Link);
 
 enum Routes {
   Index = '/',
