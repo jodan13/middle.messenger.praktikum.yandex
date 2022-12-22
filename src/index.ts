@@ -34,8 +34,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 
   try {
-    const data = await AuthController.fetchUser();
-    console.log(data);
+    await AuthController.fetchUser();
     Router.start();
     if (!isProtectedRoute) {
       console.log('ROUTER START');

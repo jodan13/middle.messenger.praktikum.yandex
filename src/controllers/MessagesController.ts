@@ -15,7 +15,7 @@ export interface Message {
     content_type: string;
     content_size: number;
     upload_date: string;
-  }
+  };
 }
 
 class MessagesController {
@@ -26,7 +26,7 @@ class MessagesController {
       return;
     }
 
-    const userId = store.getState().user.id;
+    const userId = store.getState().user?.id;
 
     const wsTransport = new WSTransport(`wss://ya-praktikum.tech/ws/chats/${userId}/${id}/${token}`);
 

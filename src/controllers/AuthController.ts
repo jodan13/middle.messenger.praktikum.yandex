@@ -13,6 +13,8 @@ export class AuthController {
   async signin(data: SigninData) {
     try {
       await this.api.signin(data);
+      console.log('signin');
+      await this.fetchUser();
 
       await router.go('/messenger');
     } catch (e: any) {
@@ -23,10 +25,10 @@ export class AuthController {
   async signup(data: SignupData) {
     try {
       await this.api.signup(data);
-
+      console.log('signup');
       await this.fetchUser();
 
-      router.go('/messenger');
+      await router.go('/messenger');
     } catch (e: any) {
       throw new Error('signup', e);
     }
@@ -36,7 +38,7 @@ export class AuthController {
     try {
       const user = await this.api.read();
 
-      store.set('user', user);
+      await store.set('user', user);
     } catch (e: any) {
       throw new Error('fetchUser', e);
     }

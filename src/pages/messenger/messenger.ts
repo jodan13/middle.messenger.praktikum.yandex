@@ -135,7 +135,7 @@ const withChat = withStore((state) => {
     return {
       messages: [],
       selectedChat: undefined,
-      userId: state.user.id,
+      userId: state.user?.id,
     };
   }
 
@@ -143,7 +143,7 @@ const withChat = withStore((state) => {
     chats: state.chats,
     messages: (state.messages || {})[selectedChatId] || [],
     selectedChat: state.selectedChat,
-    userId: state.user?.id || 0,
+    userId: state.user ? state.user.id : 0,
   };
 });
 
