@@ -22,7 +22,6 @@ export class Login extends Block {
       if (validation(login, regExpLogin) && validation(password, regExpPassword)) {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
-        console.log(data);
         AuthController.signin(data as unknown as SignupData);
       }
     };
