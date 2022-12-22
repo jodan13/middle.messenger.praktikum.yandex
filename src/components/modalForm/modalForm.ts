@@ -63,12 +63,14 @@ class ModalFormBase extends Block<Props> {
             chatId.value = '';
           }
           const file = form.elements.namedItem('avatar') as HTMLInputElement;
-          if (file && file!.files!.length === 0) {
-            const error = file!.parentElement!.nextElementSibling;
-            error!.setAttribute('data-error', 'true');
-          } else {
-            const formData = new FormData(form);
-            UserController.putUserAvatar(formData);
+          if (file) {
+            if (file!.files!.length === 0) {
+              const error = file!.parentElement!.nextElementSibling;
+              error!.setAttribute('data-error', 'true');
+            } else {
+              const formData = new FormData(form);
+              UserController.putUserAvatar(formData);
+            }
           }
         },
       },

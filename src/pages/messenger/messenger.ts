@@ -42,8 +42,10 @@ class MessengerPageBase extends Block {
           const {target} = event;
           const data = new FormData(target);
           const message = data.get('message') as string;
-          MessagesController.sendMessage(this.props.selectedChat!, message);
-          target.reset();
+          if (message.trim()) {
+            MessagesController.sendMessage(this.props.selectedChat!, message);
+            target.reset();
+          }
         },
       },
     });
@@ -106,7 +108,7 @@ class MessengerPageBase extends Block {
                     </div>
                     <div class="{{styles.chat-message-content}}">
                         <div class="{{styles.chat-message-content-text}}" id="chat-message-content-text">
-                            <div class="{{styles.date}}">19 июня</div>
+                            <div class="{{styles.date}}"></div>
                             {{#each messages}}
                                 {{{this}}}
                             {{/each}}
