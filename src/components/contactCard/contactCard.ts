@@ -1,4 +1,3 @@
-import 'src/components/contactCard/styles.module.css';
 import Block from 'src/utils/Block';
 import Handlebars from 'handlebars';
 import { PropsWithRouter, withRouter } from 'src/hocs/withRouter';

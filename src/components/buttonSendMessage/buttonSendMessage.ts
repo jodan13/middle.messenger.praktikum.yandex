@@ -1,4 +1,3 @@
-import 'src/components/buttonSendMessage/styles.module.css';
 import Block from 'src/utils/Block';
 import styles from './styles.module.css';
 

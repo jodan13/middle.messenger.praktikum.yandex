@@ -1,9 +1,5 @@
 import Block from 'src/utils/Block';
 
-import 'src/components/inputChat/styles.module.css';
-import 'src/components/sidebar/styles.module.css';
-import 'src/components/dropdown/styles.module.css';
-import 'src/components/modal/styles.module.css';
 import Sidebar from 'src/components/sidebar/sidebar';
 import { Dropdown } from 'src/components/dropdown/dropdown';
 import { Modal } from 'src/components/modal/modal';

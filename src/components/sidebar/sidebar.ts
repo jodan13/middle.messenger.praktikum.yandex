@@ -1,5 +1,4 @@
 import Block from 'src/utils/Block';
-// import registerComponent from 'src/utils/registerComponent';
 import InputChat from 'src/components/inputChat/inputChat';
 import ContactCard from 'src/components/contactCard/contactCard';
 import styles from './styles.module.css';
@@ -10,9 +9,6 @@ import { ChatInfo } from 'src/api/ChatsAPI';
 import { Link } from 'src/components/link/link';
 import ChatsController from 'src/controllers/ChatsController';
 import { Dropdown } from 'src/components/dropdown/dropdown';
-
-// registerComponent('InputChat', InputChat);
-// registerComponent('ContactCard', ContactCard);
 
 const modifiedChatsReply = getFormattedTime(chatsResponse);
 
