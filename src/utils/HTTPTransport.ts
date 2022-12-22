@@ -85,7 +85,7 @@ export class HTTPTransport {
       Object.keys(headers).forEach(key => {
         xhr.setRequestHeader(key, headers[key]);
       });
-
+      xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
       xhr.onabort = reject;
       xhr.onerror = reject;
 
