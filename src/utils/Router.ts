@@ -15,7 +15,7 @@ function render(query: string, block: Block) {
     throw new Error(`root not found by selector "${query}"`);
   }
 
-  root.innerHTML = '';
+  root.textContent = '';
 
   root.append(block.getContent()!);
 

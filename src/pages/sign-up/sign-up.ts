@@ -130,7 +130,6 @@ export class SignUp extends Block {
             const data = Object.fromEntries(formData);
 
             delete data.repeatPassword;
-            console.log(data);
             AuthController.signup(data as unknown as SignupData);
           }
         },
