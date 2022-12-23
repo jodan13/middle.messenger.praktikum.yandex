@@ -1,0 +1,31 @@
+@import "../../mixin.css";
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  float: right;
+
+  .dropdown-content {
+    @mixin dropdown-content;
+
+    right: 0;
+
+    &-top {
+      @mixin dropdown-content;
+
+      right: auto;
+      bottom: 0;
+      margin-bottom: 53px;
+    }
+
+    &-left {
+      @mixin dropdown-content;
+
+      right: auto;
+    }
+  }
+
+  [data-active] {
+    display: block;
+  }
+}

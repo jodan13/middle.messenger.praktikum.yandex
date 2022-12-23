@@ -1,0 +1,114 @@
+.profile {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background: var(--bg-color);
+
+  .profile-sidebar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 64px;
+    border-right: 1px solid var(--border-color-2);
+
+    span {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      cursor: pointer;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .profile-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+
+    h2 {
+      margin-bottom: 50px;
+    }
+
+    .info {
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 13px;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 510px;
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 0;
+
+      &[data-last="true"] {
+        border-bottom: none;
+        margin-bottom: 50px;
+      }
+
+      .white {
+        color: var(--text-color);
+      }
+
+      .gray {
+        color: var(--gray-color);
+      }
+    }
+
+    .profile-body-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+
+      h2 {
+        color: var(--text-color);
+      }
+    }
+
+    .link {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      max-width: 510px;
+      border-bottom: 1px solid var(--border-color);
+
+      a {
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 13px;
+        padding: 10px 0;
+        color: var(--link-color);
+        text-decoration: none;
+
+        &:hover {
+          color: var(--text-color);
+        }
+      }
+
+      &[data-last="true"] {
+        border-bottom: none;
+        margin-bottom: 50px;
+
+        a {
+          color: var(--error-color);
+
+          &:hover {
+            color: var(--text-color);
+          }
+        }
+      }
+    }
+  }
+}
+
+.display-none,
+.profile .profile-body .profile-body-info.display-none {
+  display: none;
+}

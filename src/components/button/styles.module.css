@@ -1,0 +1,23 @@
+.button {
+  &[type="button"],
+  &[type="submit"],
+  &[type="reset"] {
+    background-color: var(--link-color);
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-decoration: none;
+    margin: 4px 2px 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 13px;
+    width: 100%;
+  }
+
+  &[type="button"] {
+    background-color: var(--color-gray-100);
+    color: white;
+  }
+}

@@ -1,0 +1,26 @@
+.profile-link {
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  span {
+    display: flex;
+    align-self: center;
+  }
+}
+
+.chat-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 20px 10px;
+  max-width: 310px;
+  background: var(--bg-color);
+  height: 100vh;
+}
+
+.contact-card-list-wrapper {
+  margin-top: 14px;
+  border-top: 1px solid var(--border-color-2);
+}

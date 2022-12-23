@@ -1,23 +1,27 @@
-import './error.css';
 import Block from 'src/utils/Block';
 
-interface Props {
-  title: string;
-  text: string;
-}
+import styles from './styles.module.css';
+import { Link } from 'src/components/link/link';
 
-export class ErrorPage extends Block<Props> {
-  constructor({title, text}: Props) {
-    super({title, text});
+export class ErrorPage extends Block {
+  constructor() {
+    super({title: '404', text: 'Страница не найдена', styles});
+  }
+
+  init() {
+    this.children.link = new Link({
+      label: 'Назад к чатам',
+      to: '/messenger',
+    });
   }
 
   render() {
     // language=hbs
     return `
-        <div class="error-wrapper">
+        <div class="{{styles.error-wrapper}}">
             <h1>{{title}}</h1>
             <p>{{text}}</p>
-            <a href="home">Назад к чатам</a>
+            {{{link}}}
         </div>
     `;
   }

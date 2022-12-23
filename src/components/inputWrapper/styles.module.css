@@ -1,0 +1,42 @@
+.label {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 13px;
+  color: var(--text-color);
+
+  span[data-file="file"] {
+    display: flex;
+    max-width: 120px;
+    margin: 0 auto;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    text-decoration-line: underline;
+    color: var(--link-color);
+    cursor: pointer;
+  }
+
+  span[data-file="selected"] {
+    display: flex;
+    justify-content: center;
+    min-width: 120px;
+    max-width: 280px;
+    overflow-wrap: anywhere;
+    text-align: center;
+    cursor: pointer;
+  }
+}
+
+.message {
+  visibility: hidden;
+  font-size: 11px;
+  line-height: 11px;
+  color: var(--error-color);
+  margin-bottom: 8px;
+
+  &[data-error="true"] {
+    visibility: visible;
+  }
+}

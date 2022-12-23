@@ -1,14 +1,25 @@
 import Block from 'src/utils/Block';
+import styles from './styles.module.css';
+import { iconAdd, iconDel, iconUpload } from 'src/components/icons/icons';
+import { withStore } from 'src/hocs/withStore';
+import { User } from 'src/api/AuthAPI';
 
 interface Props {
+  user: User,
   type: string;
   openModal?: (event: Event) => void;
-  events: Record<string, ((event: Event) => void) | undefined>;
+  events: {
+    click: () => void;
+  };
+  styles?: typeof styles;
+  iconAdd?: string;
+  iconDel?: string;
+  iconUpload?: string;
 }
 
-export class ButtonOpenModal extends Block<Props> {
-  constructor({type, openModal}: Props) {
-    super({type, events: {click: openModal}});
+class ButtonOpenModalBase extends Block<Props> {
+  constructor(props: Props) {
+    super({...props, styles, iconAdd, iconDel, iconUpload});
   }
 
   render() {
@@ -17,11 +28,7 @@ export class ButtonOpenModal extends Block<Props> {
         // language=hbs
         return `
             <a class="disableEvent" id="openModalAddUser">
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="11" cy="11" r="10.25" stroke="var(--link-color)" stroke-width="1.5"/>
-                    <line x1="10.9999" y1="5.5" x2="10.9999" y2="16.5" stroke="#3369F3" stroke-width="1.5"/>
-                    <line x1="5.49988" y1="11" x2="16.4999" y2="11" stroke="#3369F3" stroke-width="1.5"/>
-                </svg>
+                {{{iconAdd}}}
                 <span>Добавить пользователя</span>
             </a>
         `;
@@ -29,25 +36,35 @@ export class ButtonOpenModal extends Block<Props> {
         // language=hbs
         return `
             <a class="disableEvent" id="openModalDelUser">
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="11" cy="11" r="10.25" stroke="var(--link-color)" stroke-width="1.5"/>
-                    <line x1="7.11077" y1="7.11103" x2="14.8889" y2="14.8892" stroke="#3369F3"
-                          stroke-width="1.5"/>
-                    <line x1="7.11078" y1="14.8891" x2="14.889" y2="7.11093" stroke="#3369F3"
-                          stroke-width="1.5"/>
-                </svg>
+                {{{iconDel}}}
                 <span>Удалить пользователя</span>
+            </a>
+        `;
+      case 'openModalAddChat':
+        // language=hbs
+        return `
+            <a class="disableEvent" id="openModalAddUser">
+                {{{iconAdd}}}
+                <span>Добавить чат</span>
+            </a>
+        `;
+      case 'openModalDelChat':
+        // language=hbs
+        return `
+            <a class="disableEvent" id="openModalDelUser">
+                {{{iconDel}}}
+                <span>Удалить чат</span>
             </a>
         `;
       case 'openModalUploadAvatar':
         // language=hbs
         return `
-            <div class="profile-img-circle" id="openModalUploadAvatar">
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                          d="M36 2H4C2.89543 2 2 2.89543 2 4V25.2667L14.6547 22.3139C15.5486 22.1053 16.4635 22 17.3814 22H22.6186C23.5365 22 24.4514 22.1053 25.3453 22.3139L38 25.2667V4C38 2.89543 37.1046 2 36 2ZM4 0C1.79086 0 0 1.79086 0 4V36C0 38.2091 1.79086 40 4 40H36C38.2091 40 40 38.2091 40 36V4C40 1.79086 38.2091 0 36 0H4ZM10.9091 14.5455C12.9174 14.5455 14.5455 12.9174 14.5455 10.9091C14.5455 8.90079 12.9174 7.27273 10.9091 7.27273C8.90082 7.27273 7.27276 8.90079 7.27276 10.9091C7.27276 12.9174 8.90082 14.5455 10.9091 14.5455Z"
-                          fill="var(--color-icon-3)"/>
-                </svg>
+            <div class="{{styles.profile-img-circle}}" id="openModalUploadAvatar">
+                {{#if user.avatar}}
+                    <img src="https://ya-praktikum.tech/api/v2/resources{{user.avatar}}" alt="avatar">
+                {{else}}
+                    {{{iconUpload}}}
+                {{/if}}
                 <p>Поменять аватар</p>
             </div>`;
       case 'changeData':
@@ -56,8 +73,15 @@ export class ButtonOpenModal extends Block<Props> {
       case 'changePassword':
         // language=hbs
         return `<a id="changePassword">Изменить пароль</a>`;
+      case 'exit':
+        // language=hbs
+        return `<a id="exit">Выйти</a>`;
       default:
         return '<div>default</div>';
     }
   }
 }
+
+const withUser = withStore((state) => ({user: state.user || {}}));
+
+export const ButtonOpenModal = withUser(ButtonOpenModalBase);

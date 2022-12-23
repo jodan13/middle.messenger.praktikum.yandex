@@ -1,57 +1,82 @@
 import Block from 'src/utils/Block';
-import { validation } from 'src/utils/validation';
-import { regExpLogin } from 'src/utils/const';
+import styles from './styles.module.css';
+import ChatsController from 'src/controllers/ChatsController';
+import { withStore } from 'src/hocs/withStore';
+import { ModalForm } from 'src/components/modalForm/modalForm';
 
-export class Modal extends Block<unknown> {
-  constructor() {
-    super({});
-    window.addEventListener('click', (event) => {
-      if (this._element && event.target === this._element) {
-        this._element.style.display = 'none';
-      }
-    });
+interface Props {
+  file?: boolean;
+  styles?: typeof styles;
+  title?: string;
+  modal: string;
+  display?: string;
+  events?: {
+    click: (event: Event) => void;
+  };
+}
 
+class ModalBase extends Block<Props> {
+  constructor(props: Props) {
+    super({...props, styles});
     this.setProps({
-      submit: (event: Event) => {
-        event.preventDefault();
-        const form = document.getElementById('modalForm') as HTMLFormElement;
-        const login = form.elements.namedItem('login') as HTMLInputElement;
-        if (validation(login, regExpLogin)) {
-          const formData = new FormData(form);
-          const data = Object.fromEntries(formData.entries());
-          console.log(data);
-        }
+      events: {
+        click: (event: Event) => {
+          if (this.element && event.target === this.element) {
+            ChatsController.openModal('');
+            this.props.display = 'none';
+          }
+        },
       },
-      onBlurLogin: ({target}: HTMLInputEvent) => {
-        validation(target, regExpLogin);
-      },
-      onFocusLogin: ({target}: HTMLInputEvent) => {
-        const error = target!.parentElement!.nextElementSibling;
-        error!.classList.remove('visible');
-      },
-
     });
+  }
+
+  protected init() {
+    this.setProps({display: 'none'});
+    this.children.modalForm = new ModalForm({});
+  }
+
+  protected componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+
+    if (newProps.modal && !oldProps.modal) {
+      this.props.display = 'flex';
+    } else if (!newProps.modal && oldProps.modal) {
+      this.props.display = 'none';
+    }
+    if (newProps.modal === 'openModalAddChat' && oldProps.modal !== 'openModalAddChat') {
+      this.props.title = 'Добавить Чат';
+    }
+    if (newProps.modal === 'openModalDelChat' && oldProps.modal !== 'openModalDelChat') {
+      this.props.title = 'Удалить чат';
+    }
+    if (newProps.modal === 'openModalAddUser' && oldProps.modal !== 'openModalAddUser') {
+      this.props.title = 'Добавить пользователя';
+    }
+    if (newProps.modal === 'openModalDelUser' && oldProps.modal !== 'openModalDelUser') {
+      this.props.title = 'Удалить пользователя';
+    }
+    if (newProps.modal === 'openModalUploadAvatar' && oldProps.modal !== 'openModalUploadAvatar') {
+      this.props.title = 'Загрузить файл';
+    }
+
+    return true;
   }
 
   render() {
     // language=hbs
     return `
-        <div id="myModal" class="modal">
-            <div class="modal-content">
-                <h3>Добавить пользователя</h3>
-                <form id="modalForm">
-                    {{{InputWrapper
-                            type="text"
-                            name="login"
-                            placeholder="Логин"
-                            onBlur=onBlurLogin
-                            onFocus=onFocusLogin
-                            textError="от 3 до 20 символов, латиница, цифры"
-                    }}}
-                    {{{Button value="Войти" type="submit" onClick=submit}}}
-                </form>
+        <div class="{{styles.modal}}" style="display: {{display}}">
+            <div class="{{styles.modal-content}}">
+                <h3>{{title}}</h3>
+                {{{modalForm}}}
+
             </div>
         </div>
     `;
   };
 }
+
+const withUsers = withStore((state) => ({
+  modal: state.modal || '',
+}));
+
+export const Modal = withUsers(ModalBase);

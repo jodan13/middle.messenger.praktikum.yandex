@@ -1,4 +1,5 @@
-export const regExpLogin = /^[a-zA-Z][a-zA-Z0-9-_.]{3,20}$/;
+export const regExpLogin = /^[a-zA-Z][a-zA-Z0-9-_.]{2,20}$/;
+export const regExpId = /^[0-9]{1,20}$/;
 export const regExpPassword = /^(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,40}$/;
 export const regExpEmail = /.+@.+\..+/i;
 export const regExpName = /^[А-ЯA-Z][а-яА-ЯёЁa-zA-Z]+$/;

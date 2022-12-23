@@ -1,0 +1,7 @@
+@import "../../mixin.css";
+
+.send-message {
+  @mixin reset-button;
+
+  margin-left: 10px;
+}

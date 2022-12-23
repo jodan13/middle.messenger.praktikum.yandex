@@ -1,0 +1,9 @@
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
+  color: var(--link-color);
+  text-align: center;
+}

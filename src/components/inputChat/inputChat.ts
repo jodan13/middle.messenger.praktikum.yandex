@@ -1,21 +1,31 @@
 import Block from 'src/utils/Block';
+import styles from './styles.module.css';
 
 interface Props {
   placeholder: string;
-  iconSearch: string;
+  iconSearch: boolean;
   name: string;
+  styles?: typeof styles;
 }
 
 export default class InputChat extends Block<Props> {
-  constructor({placeholder, iconSearch, name}: Props) {
-    super({placeholder, iconSearch, name});
+  constructor(props: Props) {
+    super({...props, styles});
+  }
+
+  public setValue(value: string) {
+    return (this.element as HTMLInputElement).value = value;
+  }
+
+  public getValue() {
+    return (this.element as HTMLInputElement).value;
   }
 
   render() {
     // language=hbs
     return `
-        <div class="search-input {{iconSearch}}">
-            <input class="search-input__input" type="text" name="{{name}}" placeholder="{{placeholder}}">
+        <div class="{{styles.search-input}}" data-icon-search="{{iconSearch}}">
+            <input class="{{styles.search-input__input}}" type="text" name="{{name}}" placeholder="{{placeholder}}">
         </div>
     `;
   }
