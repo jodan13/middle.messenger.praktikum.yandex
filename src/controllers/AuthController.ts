@@ -30,18 +30,14 @@ export class AuthController {
 
       await router.go('/messenger');
     } catch (e: any) {
-      throw new Error('signup', e);
+      console.error(e);
     }
   }
 
   async fetchUser() {
-    try {
-      const user = await this.api.read();
+    const user = await this.api.read();
 
-      await store.set('user', user);
-    } catch (e: any) {
-      throw new Error('fetchUser', e);
-    }
+    await store.set('user', user);
   }
 
   async logout() {
