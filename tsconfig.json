@@ -19,6 +19,12 @@
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "esModuleInterop": true
-  }
+    "esModuleInterop": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+  },
+  "include": ["src/**/*",
+    "src/index.spec.ts"
+  ],
+  "exclude": ["node_modules"]
 }
