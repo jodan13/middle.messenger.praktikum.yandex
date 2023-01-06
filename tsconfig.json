@@ -21,10 +21,16 @@
     "noUnusedParameters": true,
     "esModuleInterop": true,
     "noEmit": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*",
-    "src/index.spec.ts"
+  "include": [
+    "src/**/*",
+    "src/index.test.ts",
+    "types/global.d.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "files": true,
+    "require": ["tsconfig-paths/register"]
+  }
 }

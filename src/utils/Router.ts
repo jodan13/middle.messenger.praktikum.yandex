@@ -1,6 +1,6 @@
 import Block from './Block';
 
-interface BlockConstructable<P = any> {
+export interface BlockConstructable<P = any> {
   new(props: P): Block<P>;
 }
 
@@ -50,13 +50,13 @@ class Route {
   }
 }
 
-class Router {
+export class Router {
   private static __instance: Router;
   private routes: Route[] = [];
   private currentRoute: Route | null = null;
   private history = window.history;
 
-  constructor(private readonly rootQuery: string) {
+  constructor() {
     if (Router.__instance) {
       return Router.__instance;
     }
@@ -67,7 +67,7 @@ class Router {
   }
 
   public use(pathname: string, block: BlockConstructable) {
-    const route = new Route(pathname, block, this.rootQuery);
+    const route = new Route(pathname, block, '#app');
     this.routes.push(route);
 
     return this;
@@ -118,6 +118,11 @@ class Router {
   private getRoute(pathname: string) {
     return this.routes.find(route => route.match(pathname));
   }
+
+  public reset() {
+    this.routes = [];
+    this.currentRoute = null;
+  }
 }
 
-export default new Router('#app');
+export default new Router();

@@ -2,6 +2,9 @@
   "extension": [
     "ts"
   ],
-  "spec": "src/**/*.spec.ts",
-  "require": "test/babel-register.js"
+  "spec": "src/**/*.test.ts",
+  "require": [
+    "test/mochaSetup.js",
+    "ts-node/register"
+  ]
 }
