@@ -1,8 +1,8 @@
 import Block from 'src/utils/Block';
-import styles from './styles.module.css';
 import ChatsController from 'src/controllers/ChatsController';
 import { withStore } from 'src/hocs/withStore';
 import { ModalForm } from 'src/components/modalForm/modalForm';
+import styles from './styles.module.css';
 
 interface Props {
   file?: boolean;

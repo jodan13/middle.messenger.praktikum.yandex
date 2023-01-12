@@ -27,8 +27,8 @@ class MessagesController {
     }
 
     const userId = store.getState().user?.id;
-
-    const wsTransport = new WSTransport(`wss://ya-praktikum.tech/ws/chats/${userId}/${id}/${token}`);
+    const url = 'wss://ya-praktikum.tech/ws/chats/';
+    const wsTransport = new WSTransport(`${url}${userId}/${id}/${token}`);
 
     this.sockets.set(id, wsTransport);
 
@@ -58,11 +58,11 @@ class MessagesController {
       throw new Error(`Chat ${id} is not connected`);
     }
 
-    socket.send({type: 'get old', content: '0'});
+    socket.send({ type: 'get old', content: '0' });
   }
 
   closeAll() {
-    Array.from(this.sockets.values()).forEach(socket => socket.close());
+    Array.from(this.sockets.values()).forEach((socket) => socket.close());
   }
 
   private onMessage(id: number, messages: Message | Message[]) {
@@ -91,10 +91,8 @@ class MessagesController {
   }
 }
 
-
 const controller = new MessagesController();
 
-// @ts-ignore
-window.messagesController = controller;
+(window as Window).messagesController = controller;
 
 export default controller;

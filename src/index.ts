@@ -1,6 +1,6 @@
 import './normalize.css';
 import './styles.css';
-import { Login } from 'src/pages/login/login';
+import Login from 'src/pages/login/login';
 import { Settings } from 'src/pages/settings/settings';
 import AuthController from 'src/controllers/AuthController';
 import Router from 'src/utils/Router';

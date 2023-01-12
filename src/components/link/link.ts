@@ -1,5 +1,6 @@
 import Block from '../../utils/Block';
 import { PropsWithRouter, withRouter } from 'src/hocs/withRouter';
+
 import styles from './styles.module.css';
 
 interface LinkProps extends PropsWithRouter {
@@ -9,10 +10,10 @@ interface LinkProps extends PropsWithRouter {
   events?: {
     click: () => void;
   };
-  styles: typeof styles;
+  styles?: typeof styles;
 }
 
-class BaseLink extends Block<LinkProps> {
+export class BaseLink extends Block<LinkProps> {
   constructor(props: LinkProps) {
     super({
       ...props,

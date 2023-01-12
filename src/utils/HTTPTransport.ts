@@ -62,7 +62,7 @@ export class HTTPTransport {
         reject('No method');
         return;
       }
-
+      // console.log('request', data, data instanceof FormData);
       const xhr = new XMLHttpRequest();
       const isGet = method === METHODS.GET;
 
@@ -88,7 +88,6 @@ export class HTTPTransport {
 
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
-
       if (!(data instanceof FormData)) {
         xhr.setRequestHeader('Content-Type', 'application/json');
       }
