@@ -16,8 +16,8 @@ export class AuthController {
       await this.fetchUser();
 
       await router.go('/messenger');
-    } catch (e: any) {
-      // console.error(e);
+    } catch (e: unknown) {
+      console.error((e as { message: string }).message);
     }
   }
 
@@ -27,8 +27,8 @@ export class AuthController {
       await this.fetchUser();
 
       await router.go('/messenger');
-    } catch (e: any) {
-      // console.error(e);
+    } catch (e: unknown) {
+      console.error((e as { message: string }).message);
     }
   }
 
@@ -45,8 +45,8 @@ export class AuthController {
       await this.api.logout();
 
       router.go('/');
-    } catch (e: any) {
-      // console.error(e.message);
+    } catch (e: unknown) {
+      console.error((e as { message: string }).message);
     }
   }
 }

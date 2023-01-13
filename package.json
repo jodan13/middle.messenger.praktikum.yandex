@@ -8,7 +8,7 @@
     "build": "webpack",
     "test": "mocha",
     "check-types": "tsc",
-    "check:lint": "eslint .",
+    "check:lint": "lint-staged",
     "check:test": "mocha"
   },
   "directories": {
@@ -33,6 +33,7 @@
     "html-webpack-plugin": "5.5.0",
     "husky": "8.0.3",
     "jsdom": "20.0.3",
+    "lint-staged": "^13.1.0",
     "mocha": "10.2.0",
     "npm-run-all": "4.1.5",
     "postcss": "8.4.18",
@@ -78,5 +79,8 @@
     "hooks": {
       "pre-commit": "npm-run-all --parallel check:*"
     }
+  },
+  "lint-staged": {
+    "*.ts": "eslint ."
   }
 }

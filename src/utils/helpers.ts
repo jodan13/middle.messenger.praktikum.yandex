@@ -14,8 +14,9 @@ export function merge(lhs: Indexed, rhs: Indexed): Indexed {
       } else {
         lhs[p] = rhs[p];
       }
-    } catch (e) {
+    } catch (e: unknown) {
       lhs[p] = rhs[p];
+      console.error((e as { message: string }).message);
     }
   }
 

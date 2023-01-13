@@ -40,12 +40,13 @@ window.addEventListener('DOMContentLoaded', async () => {
       console.log('ROUTER START');
       Router.go(Routes.Messenger);
     }
-  } catch (e) {
+  } catch (e: unknown) {
     Router.start();
 
     if (isProtectedRoute) {
       Router.go(Routes.Index);
     }
+    console.error((e as { message: string }).message);
   }
 
 });

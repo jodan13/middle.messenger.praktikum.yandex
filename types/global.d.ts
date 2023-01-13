@@ -22,7 +22,7 @@ type HTMLElementEvent<T extends HTMLElement> = Event & {
 }
 
 interface Window {
-  messagesController: any;
-  load: any;
+  messagesController: unknown;
+  load: unknown;
 }
 
