@@ -42,10 +42,13 @@ class BaseContactCard extends Block<Props> {
   }
 
   render() {
+
     // language=hbs
     return `
         <li class="{{styles.contact-card}}" data-active="{{#if (activeContactCard item.id)}}true{{else}}false{{/if}}">
-            <img class="{{styles.contact-card__avatar}}" src="{{img}}" alt="avatar">
+            <img class="{{styles.contact-card__avatar}}" src="{{#if
+                    item.avatar}}https://ya-praktikum.tech/api/v2/resources{{item.avatar}}{{else}}{{img}}{{/if}}"
+                 alt="avatar">
             <div class="{{styles.contact-card__name-wrapper}}">
                 <p class="{{styles.contact-card__name}}">{{item.title}} (id: {{item.id}})</p>
             </div>

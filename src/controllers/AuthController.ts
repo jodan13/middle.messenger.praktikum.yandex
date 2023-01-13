@@ -1,7 +1,7 @@
+import MessagesController from 'src/controllers/MessagesController';
 import API, { AuthAPI, SigninData, SignupData } from '../api/AuthAPI';
 import store from '../utils/Store';
 import router from '../utils/Router';
-import MessagesController from 'src/controllers/MessagesController';
 
 export class AuthController {
   private readonly api: AuthAPI;
@@ -13,24 +13,22 @@ export class AuthController {
   async signin(data: SigninData) {
     try {
       await this.api.signin(data);
-      console.log('signin');
       await this.fetchUser();
 
       await router.go('/messenger');
-    } catch (e: any) {
-      console.error(e);
+    } catch (e: unknown) {
+      console.error((e as { message: string }).message);
     }
   }
 
   async signup(data: SignupData) {
     try {
       await this.api.signup(data);
-      console.log('signup');
       await this.fetchUser();
 
       await router.go('/messenger');
-    } catch (e: any) {
-      console.error(e);
+    } catch (e: unknown) {
+      console.error((e as { message: string }).message);
     }
   }
 
@@ -47,11 +45,10 @@ export class AuthController {
       await this.api.logout();
 
       router.go('/');
-    } catch (e: any) {
-      console.error(e.message);
+    } catch (e: unknown) {
+      console.error((e as { message: string }).message);
     }
   }
-
 }
 
 export default new AuthController();

@@ -1,6 +1,6 @@
 import './normalize.css';
 import './styles.css';
-import { Login } from 'src/pages/login/login';
+import Login from 'src/pages/login/login';
 import { Settings } from 'src/pages/settings/settings';
 import AuthController from 'src/controllers/AuthController';
 import Router from 'src/utils/Router';
@@ -40,12 +40,13 @@ window.addEventListener('DOMContentLoaded', async () => {
       console.log('ROUTER START');
       Router.go(Routes.Messenger);
     }
-  } catch (e) {
+  } catch (e: unknown) {
     Router.start();
 
     if (isProtectedRoute) {
       Router.go(Routes.Index);
     }
+    console.error((e as { message: string }).message);
   }
 
 });

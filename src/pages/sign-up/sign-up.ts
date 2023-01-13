@@ -137,7 +137,7 @@ export class SignUp extends Block {
     });
     this.children.link = new Link({
       label: 'Войти',
-      to: '/login',
+      to: '/',
     });
   }
 

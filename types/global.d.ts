@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
 declare module '*.hbs' {
   const content: <T>(props?: T) => string;
   export default content;
 }
 declare module 'handlebars/dist/handlebars.runtime';
 declare module 'handlebars';
+
+declare module 'load';
 declare module '*.png';
 declare module '*.json';
 declare module '*.css';
@@ -17,3 +20,9 @@ interface HTMLInputEvent extends Event {
 type HTMLElementEvent<T extends HTMLElement> = Event & {
   target: T;
 }
+
+interface Window {
+  messagesController: unknown;
+  load: unknown;
+}
+
